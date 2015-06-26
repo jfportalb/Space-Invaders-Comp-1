@@ -1,5 +1,6 @@
 #include "jogo.h"
 #include <stdio.h>
+#include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_native_dialog.h>
@@ -8,6 +9,8 @@
 void allegro_init(Jogo* jogo);
 void allegro_image_init(Jogo* jogo);
 void allegro_primitives_init(Jogo* jogo);
+void allegro_font_init(Jogo* jogo);
+void allegro_mouse_init(Jogo* jogo);
 void allegro_keyboard_init(Jogo* jogo);
 void allegro_display_init(Jogo* jogo, int largura, int altura);
 void allegro_timer_init(Jogo* jogo);
@@ -30,11 +33,13 @@ void inicializa_jogo (Jogo* jogo, int largura, int altura){
 	jogo->redraw = false;
 
 	allegro_init(jogo);
+	allegro_display_init(jogo, jogo->largura, jogo->altura);
 	allegro_image_init(jogo);
 	allegro_primitives_init(jogo);
+	allegro_font_init(jogo);
 	
+	allegro_mouse_init(jogo);
 	allegro_keyboard_init(jogo);
-	allegro_display_init(jogo, jogo->largura, jogo->altura);
 	allegro_timer_init(jogo);
 	
 	allegro_event_queue_init(jogo);
@@ -91,7 +96,7 @@ void processa_menu_pausa(Jogo* jogo, ALLEGRO_EVENT ev){
 
 void desenha_menu_pausa(Jogo* jogo){
 	al_clear_to_color(al_map_rgb(150, 0, 0));
-
+	al_draw_text(jogo->fonte, al_map_rgb(255,255,255), 640/2, (480/4),ALLEGRO_ALIGN_CENTRE, "Your Text Here!");
 	al_flip_display();
 }
 
@@ -155,6 +160,20 @@ void allegro_primitives_init(Jogo* jogo){
 		exit(1);		
 	}
 }
+void allegro_font_init(Jogo* jogo){
+	al_init_font_addon();
+	jogo->fonte = al_load_ttf_font("From_Cartoon_Blocks.ttf", 20, 0);
+	if(!jogo->fonte){
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar a fonte.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		exit(1);
+	}
+}
+void allegro_mouse_init(Jogo* jogo){
+	if(!al_install_mouse()) {
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o teclado.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+    	exit(1);
+   }
+}
 void allegro_keyboard_init(Jogo* jogo){
 	if(!al_install_keyboard()){
 		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o teclado.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
@@ -186,6 +205,7 @@ void allegro_event_queue_init(Jogo* jogo){
 		exit(1);
 	}
 
+	al_register_event_source(jogo->event_queue, al_get_mouse_event_source());
 	al_register_event_source(jogo->event_queue, al_get_keyboard_event_source());
 	al_register_event_source(jogo->event_queue, al_get_timer_event_source(jogo->timer));
 	al_register_event_source(jogo->event_queue, al_get_display_event_source(jogo->display));

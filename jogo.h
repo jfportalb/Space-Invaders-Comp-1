@@ -2,6 +2,7 @@
 #define JOGO_H
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
 
 #include "escudo.h"
 #include "tanque.h"
@@ -29,6 +30,8 @@ struct Jogo{
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* timer;
+	ALLEGRO_FONT* fonte;
+
 	GAME_STATE estado_do_jogo;
 	bool key[N_KEYS];
 	

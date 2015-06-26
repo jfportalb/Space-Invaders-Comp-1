@@ -1,5 +1,5 @@
-all: jogo.o escudo.o alien.o missil.o tanque.o buffer.o space.c
-	g++ space.c jogo.o escudo.o alien.o missil.o tanque.o buffer.o -o space -lallegro -lallegro_dialog -lallegro_image -lallegro_primitives
+lall: jogo.o escudo.o alien.o missil.o tanque.o buffer.o space.c
+	g++ space.c jogo.o escudo.o alien.o missil.o tanque.o buffer.o -o space -lallegro -lallegro_dialog -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf
 buffer.o: buffer.c
 	g++ -c buffer.c
 jogo.o: jogo.c
