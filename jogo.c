@@ -96,7 +96,7 @@ void processa_menu_pausa(Jogo* jogo, ALLEGRO_EVENT ev){
 
 void desenha_menu_pausa(Jogo* jogo){
 	al_clear_to_color(al_map_rgb(150, 0, 0));
-	al_draw_text(jogo->fonte, al_map_rgb(255,255,255), 640/2, (480/4),ALLEGRO_ALIGN_CENTRE, "Your Text Here!");
+	al_draw_text(jogo->fonte, al_map_rgb(255,255,255), 640/2, (480/4),ALLEGRO_ALIGN_CENTRE, "Menu");
 	al_flip_display();
 }
 
@@ -162,7 +162,8 @@ void allegro_primitives_init(Jogo* jogo){
 }
 void allegro_font_init(Jogo* jogo){
 	al_init_font_addon();
-	jogo->fonte = al_load_ttf_font("From_Cartoon_Blocks.ttf", 20, 0);
+	al_init_ttf_addon();
+	jogo->fonte = al_load_ttf_font("imagens/From_Cartoon_Blocks.ttf", 50, 0);
 	if(!jogo->fonte){
 		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar a fonte.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		exit(1);
