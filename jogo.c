@@ -38,7 +38,7 @@ void inicializa_jogo (Jogo* jogo, int largura, int altura){
 	allegro_timer_init(jogo);
 	
 	allegro_event_queue_init(jogo);
-	
+
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
 	jogo->tanque = NULL;

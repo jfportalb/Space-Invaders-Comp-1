@@ -46,21 +46,13 @@ Escudo* inicializa_escudo( int posicao_x, int posicao_y ) {
 
 	for(int i=0; i<10; i++)
 		if(!escudo->imagem[i%5][i/5]){
-			free(escudo);
-			escudo = NULL;
+			escudo = finaliza_escudo(escudo);
 			break;
 		}
 
 	return escudo;
 }	
 
-Escudo* finaliza_escudo( Escudo *escudo ) {
-	for(int i =0; i<5; i++)
-		for(int j=0; j<2; j++)
-			al_destroy_bitmap(escudo->imagem[i][j]);
-	free(escudo);
-	return escudo;
-}
 
 void desenha_pedaco_escudo( int x, int y, LegoEscudo lego, EstadoEscudo estado, ALLEGRO_BITMAP* imagem[5][2]) {			 
 	if( lego != VAZIO && estado != DESTRUIDO)
@@ -71,4 +63,13 @@ void desenha_escudo( Escudo* escudo ) {
 	for( int i = 0, x = escudo->posicao_x; i < PEDACOS_HORIZONTAL; i++, x += TAMANHO_ESCUDO / PEDACOS_HORIZONTAL )
 		for( int j = 0, y = escudo->posicao_y; j < PEDACOS_VERTICAL; j++, y += TAMANHO_ESCUDO / 8 )
 			desenha_pedaco_escudo( x, y, escudo->desenho[i][j], escudo->pedaco[i][j], escudo->imagem);		 
+}
+
+Escudo* finaliza_escudo( Escudo *escudo ) {
+	for(int i =0; i<5; i++)
+		for(int j=0; j<2; j++)
+			al_destroy_bitmap(escudo->imagem[i][j]);
+	free(escudo);
+	escudo = NULL;
+	return escudo;
 }
