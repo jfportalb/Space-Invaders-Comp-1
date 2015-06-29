@@ -31,4 +31,6 @@ void processa_tanque(Tanque* tanque);
 
 Tanque* destroi_tanque(Tanque* tanque);
 
+ALLEGRO_BITMAP* get_imagem_tanque(Tanque* tanque);
+
 #endif

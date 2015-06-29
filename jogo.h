@@ -8,6 +8,7 @@
 #include "tanque.h"
 #include "missil.h"
 #include "buffer.h"
+#include "menu.h"
 
 #define FPS 60
 #define N_KEYS 3
@@ -17,15 +18,15 @@ enum MYKEYS {
    KEY_LEFT, KEY_RIGHT, KEY_SPACE
 };
 
-enum GAME_STATE {
-	MENU_INICIAL, PLAY, MENU_PAUSA, GAME_OVER
-};
+// enum GAME_STATE {
+// 	MENU_INICIAL, PLAY, MENU_PAUSA, GAME_OVER
+// };
 
 struct Jogo{
 	bool sair, redraw;
 
 	int largura, altura;
-	int vidas;
+	int vidas, score;
 
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_EVENT_QUEUE* event_queue;
@@ -33,7 +34,13 @@ struct Jogo{
 	ALLEGRO_FONT* fonte;
 
 	GAME_STATE estado_do_jogo;
+	GAME_STATE estado_do_jogo_anterior;
 	bool key[N_KEYS];
+
+	Menu menu_start;
+	Menu menu_principal;
+	Menu menu_opcoes;
+	Menu menu_pausa;
 	
 	Buffer* buffer;
 	Escudo* escudo[4];

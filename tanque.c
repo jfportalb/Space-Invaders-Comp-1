@@ -63,3 +63,7 @@ Tanque* destroi_tanque(Tanque* tanque){
 	tanque = NULL;
 	return tanque;
 }
+
+ALLEGRO_BITMAP* get_imagem_tanque(Tanque* tanque){
+	return tanque->imagem;
+}
