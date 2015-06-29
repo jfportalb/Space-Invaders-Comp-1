@@ -19,7 +19,6 @@ void inicializa_botao(BOTAO* botao,int largura_jogo, int altura_jogo,
 
 	botao->botao_pos_x = largura_jogo/2 - delta_x;
 	botao->botao_pos_y = altura_jogo/2 + delta_y;
-
 }
 
 void desenha_botao(BOTAO* botao, ALLEGRO_FONT* fonte, int botao_pos_x, int botao_pos_y, COLOR botao_cor){

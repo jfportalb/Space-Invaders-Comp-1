@@ -38,8 +38,7 @@ struct BOTAO {
 	
 };
 
-void inicializa_botao(BOTAO* botao,int largura_jogo, int altura_jogo, 
-					  ALLEGRO_FONT *fonte, int altura_fonte, char* texto, COLOR botao_cor);
+void inicializa_botao(BOTAO* botao,int largura_jogo, int altura_jogo, ALLEGRO_FONT *fonte, int altura_fonte, char* texto, COLOR botao_cor);
 
 void desenha_botao(BOTAO* botao, ALLEGRO_FONT* fonte, int botao_pos_x, int botao_pos_y, COLOR botao_cor);
 

@@ -37,10 +37,9 @@ struct Jogo{
 	GAME_STATE estado_do_jogo_anterior;
 	bool key[N_KEYS];
 
-	Menu menu_start;
-	Menu menu_principal;
-	Menu menu_opcoes;
-	Menu menu_pausa;
+	Menu* menu_principal;
+	Menu* menu_opcoes;
+	Menu* menu_pausa;
 	
 	Buffer* buffer;
 	Escudo* escudo[4];
