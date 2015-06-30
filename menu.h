@@ -8,6 +8,10 @@
 #define BOTAO_SELECIONADO al_map_rgb(0, 0, 0)
 
 struct Menu {
+	ALLEGRO_BITMAP* buffer;
+
+	int largura, altura;
+
 	ALLEGRO_BITMAP* titulo;
 	int titulo_pos_x, titulo_pos_y;
 	int titulo_width, titulo_height;
@@ -25,7 +29,7 @@ Menu* inicializa_menu( ALLEGRO_FONT* fonte, int largura_jogo, int altura_jogo, i
 
 void cria_botao(Menu* menu, int pos_botao, const char texto[LETRAS_MAX_BOTAO], Funcao retorno, void* parametro_retorno);
 
-void desenha_menu(Menu* menu);
+void desenha_menu(Menu* menu, int largura, int altura);
 
 void menu_up(Menu* menu);
 

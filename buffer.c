@@ -24,7 +24,7 @@ void processa_buffer(Buffer* buffer){
 	// processa_horda(buffer->horda);
 }
 
-void desenha_buffer(Buffer* buffer, int altura, int largura){
+void desenha_buffer(Buffer* buffer, int largura, int altura){
 	al_set_target_bitmap(buffer->buffer);
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -42,7 +42,7 @@ void desenha_buffer(Buffer* buffer, int altura, int largura){
 
 	al_flip_display();
 	al_set_target_backbuffer(buffer->display);
-	al_draw_bitmap(buffer->buffer, 0, 0, 0);	
+	al_draw_scaled_bitmap(buffer->buffer, 0, 0, buffer->largura_inicial, buffer->altura_inicial, 0, 0, largura, altura, 0);	
 }
 
 Buffer* destroi_buffer(Buffer* buffer){

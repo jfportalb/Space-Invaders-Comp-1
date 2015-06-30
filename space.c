@@ -9,7 +9,7 @@
 int main(){
 	Jogo jogo;
 
-	inicializa_jogo(&jogo, 640, 480);
+	inicializa_jogo(&jogo);
 
 	main_loop_jogo(&jogo);
 

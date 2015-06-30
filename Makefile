@@ -18,3 +18,7 @@ tanque.o: tanque.c
 	g++ -c tanque.c
 clean:
 	rm -f jogo.o escudo.o alien.o missil.o tanque.o vetor.o buffer.o botao.o menu.o
+git:
+	git add --all
+	git commit
+	git push

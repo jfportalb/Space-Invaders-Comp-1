@@ -29,6 +29,8 @@ int get_posicao_x_max_tanque (Tanque* tanque);
 
 void processa_tanque(Tanque* tanque);
 
+int* get_ponta_missil_tanque(Tanque* tanque);
+
 Tanque* destroi_tanque(Tanque* tanque);
 
 ALLEGRO_BITMAP* get_imagem_tanque(Tanque* tanque);

@@ -36,9 +36,9 @@ void sair_jogo(void* ptr);
 void get_keyboard_up(Jogo* jogo, ALLEGRO_EVENT ev);
 void get_keyboard_down(Jogo* jogo, ALLEGRO_EVENT ev);
 
-void inicializa_jogo (Jogo* jogo, int largura, int altura){
-	jogo->largura = largura;
-	jogo->altura = altura;
+void inicializa_jogo (Jogo* jogo){
+	jogo->largura = LARGURA_INICIAL;
+	jogo->altura = ALTURA_INICIAL;
 	jogo->sair = false;
 	jogo->redraw = false;
 
@@ -63,8 +63,6 @@ void inicializa_jogo (Jogo* jogo, int largura, int altura){
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
 	jogo->tanque = NULL;
-
-	// game_start(jogo); //Esta função deve ser colocada dentro dos menus para o início de uma nova partida.
 }
 
 void processa_menu(Jogo* jogo, Menu* menu, ALLEGRO_EVENT ev){
@@ -109,6 +107,7 @@ void desenha_jogo(Jogo* jogo){
 
 void main_loop_jogo(Jogo* jogo){
 	al_start_timer(jogo->timer);
+	al_resize_display(jogo->display, jogo->largura =  640*5/4, jogo->altura = 480*5/4);
 	while(!jogo->sair){
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(jogo->event_queue, &ev);
@@ -117,7 +116,7 @@ void main_loop_jogo(Jogo* jogo){
 				processa_menu(jogo, jogo->menu[MENU_PRINCIPAL], ev);
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
-					desenha_menu(jogo->menu[MENU_PRINCIPAL]);
+					desenha_menu(jogo->menu[MENU_PRINCIPAL], jogo->largura, jogo->altura);
 				}
 				break;
 			case PLAY:
@@ -131,7 +130,7 @@ void main_loop_jogo(Jogo* jogo){
 				processa_menu(jogo, jogo->menu[MENU_DE_PAUSA], ev);
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
-					desenha_menu(jogo->menu[MENU_DE_PAUSA]);
+					desenha_menu(jogo->menu[MENU_DE_PAUSA], jogo->largura, jogo->altura);
 				}
 				break;
 			case GAME_OVER:
