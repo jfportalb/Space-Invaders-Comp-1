@@ -18,9 +18,13 @@ enum MYKEYS {
    KEY_LEFT, KEY_RIGHT, KEY_SPACE
 };
 
-// enum GAME_STATE {
-// 	MENU_INICIAL, PLAY, MENU_PAUSA, GAME_OVER
-// };
+enum GAME_STATE {
+	MENU_INICIAL, PLAY, MENU_PAUSA, GAME_OVER
+};
+
+enum MENUS{
+	MENU_PRINCIPAL, MENU_DE_PAUSA, MENU_DE_OPCOES
+};
 
 struct Jogo{
 	bool sair, redraw;
@@ -34,12 +38,9 @@ struct Jogo{
 	ALLEGRO_FONT* fonte;
 
 	GAME_STATE estado_do_jogo;
-	GAME_STATE estado_do_jogo_anterior;
 	bool key[N_KEYS];
 
-	Menu* menu_principal;
-	Menu* menu_opcoes;
-	Menu* menu_pausa;
+	Menu* menu[3];
 	
 	Buffer* buffer;
 	Escudo* escudo[4];

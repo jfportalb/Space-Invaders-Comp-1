@@ -1,79 +1,29 @@
 #include "botao.h"
-#include <stdio.h>
 
-void inicializa_botao(BOTAO* botao,int largura_jogo, int altura_jogo, 
-					  ALLEGRO_FONT *fonte, int altura_fonte, char* texto, COLOR botao_cor) {
-	botao->texto = texto;
-	botao->clique = false;
+Botao* inicializa_botao( ALLEGRO_FONT *fonte, int meio_botao_pos_x, int topo_botao_pos_y, const char texto[LETRAS_MAX_BOTAO], Funcao retorno, void* parametro_retorno){
+	Botao* botao = (Botao*) malloc(sizeof(Botao));
+	strcpy(botao->texto, texto);
+	botao->fonte = fonte;
 
-	botao->botao_cor = botao_cor;
+	int delta_x = al_get_text_width(botao->fonte, texto)/2;
+	botao->pos_x = meio_botao_pos_x - delta_x;
+	botao->pos_y = topo_botao_pos_y;
 
-	botao->normal_color = al_map_rgb(63, 63, 63);
-	botao->highlight_color = al_map_rgb(0, 0, 0);
-
-	botao->botao_width = al_get_text_width(fonte, texto);
-	botao->botao_height = altura_fonte;
-
-	int delta_x = botao->botao_width/2;
-	int delta_y = botao->botao_height/2;
-
-	botao->botao_pos_x = largura_jogo/2 - delta_x;
-	botao->botao_pos_y = altura_jogo/2 + delta_y;
+	botao->retorno = retorno;
+	botao->parametro_retorno = parametro_retorno;
+	return botao;
 }
 
-void desenha_botao(BOTAO* botao, ALLEGRO_FONT* fonte, int botao_pos_x, int botao_pos_y, COLOR botao_cor){
-	if(botao_cor == NORMAL)
-		al_draw_text(fonte, botao->normal_color, botao_pos_x, botao_pos_y, 0, botao->texto);
-	if(botao_cor == HIGHLIGHT)
-		al_draw_text(fonte, botao->highlight_color, botao_pos_x, botao_pos_y, 0, botao->texto);
+void desenha_botao(Botao* botao, ALLEGRO_COLOR cor){
+	al_draw_text(botao->fonte, cor, botao->pos_x, botao->pos_y, 0, botao->texto);
 }
 
-void clica_botao(MYBUTTONS botao, GAME_STATE* game_state, GAME_STATE game_state_anterior){
-	switch(*game_state){
-		case PUSH_START:
-			switch (botao){
-				case P_START:
-					*game_state = MENU_INICIAL;
-					break;
-			}
-			break;
-		case MENU_INICIAL:
-			switch (botao){
-				case PLAY:
-					*game_state = PLAY_GAME;
-					break;
-				case OPTIONS:
-					*game_state = OPCOES;
-					break;
-				case EXIT:
-					*game_state = GAME_OVER;
-					break;
-			}
-			break;
-		case OPCOES:
-			switch(botao){
-				case BACK:
-					*game_state = game_state_anterior;
-					break;
-			}
-			break;
-		case MENU_PAUSA:
-			switch(botao){
-				case RESUME_GAME:
-					*game_state = PLAY_GAME;
-					break;
-				//case RESTART_GAME:
-					//	inicializa_jogo();
-					//*game_state = PLAY_GAME;
-					//break;
-				case MAIN_MENU:
-					*game_state = MENU_INICIAL;
-					break;
-			}
-			break;
-	}
+void clica_botao(Botao* botao){
+	botao->retorno(botao->parametro_retorno);
 }
 
-/*void finaliza_botao(BOTAO* botao){
-
-}*/
+Botao* finaliza_botao(Botao* botao){
+	// free(botao->texto);
+	if(botao) free(botao);
+	return NULL;
+}
