@@ -18,13 +18,14 @@
 //Medidas do display para que o jogo fique proporcional.
 #define LARGURA_INICIAL 640
 #define ALTURA_INICIAL 480
+#define MEDIDA_RESIZE 20
 
 enum MYKEYS {
    KEY_LEFT, KEY_RIGHT, KEY_SPACE
 };
 
 enum GAME_STATE {
-	MENU_INICIAL, PLAY, MENU_PAUSA, GAME_OVER
+	MENU_INICIAL, PLAY, MENU_PAUSA, GAME_OVER, MENU_OPCOES
 };
 
 enum MENUS{

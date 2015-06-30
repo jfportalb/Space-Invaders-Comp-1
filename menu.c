@@ -72,6 +72,10 @@ void desenha_menu(Menu * menu, int largura, int altura) {
 
 	al_flip_display();
 }
+
+void reinicia_menu(Menu* menu){
+	menu->botao_selecionado = 0;
+}
 void menu_up(Menu * menu) {
 	menu->botao_selecionado = (menu->botao_selecionado + menu->numero_botoes - 1) % menu->numero_botoes;
 }

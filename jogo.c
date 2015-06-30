@@ -27,8 +27,12 @@ void cria_tanque(Jogo* jogo);
 void finaliza_jogo(Jogo* jogo);
 
 //Botões dos menus:
+void aumenta_tela(void* ptr);
+void diminui_tela(void* ptr);
 void game_start(void* ptr);
 void ir_para_menu_inicial(void* ptr);
+void ir_para_menu_de_pausa(Jogo* jogo);
+void ir_para_menu_de_opcoes(void* ptr);
 void voltar_ao_jogo(void* ptr);
 void sair_jogo(void* ptr);
 
@@ -90,7 +94,7 @@ void processa_jogo(Jogo* jogo, ALLEGRO_EVENT ev){
 	else if (ev.type == ALLEGRO_EVENT_TIMER){
 		if(jogo->key[KEY_LEFT] && get_posicao_x_min_tanque(jogo->tanque) > 0)
             tanque_move_esquerda(jogo->tanque);
-        if(jogo->key[KEY_RIGHT] && get_posicao_x_max_tanque(jogo->tanque) < jogo->largura)
+        if(jogo->key[KEY_RIGHT] && get_posicao_x_max_tanque(jogo->tanque) < LARGURA_INICIAL)
             tanque_move_direita(jogo->tanque);
         processa_buffer(jogo->buffer);
 		jogo->redraw = true;
@@ -107,7 +111,6 @@ void desenha_jogo(Jogo* jogo){
 
 void main_loop_jogo(Jogo* jogo){
 	al_start_timer(jogo->timer);
-	al_resize_display(jogo->display, jogo->largura =  640*5/4, jogo->altura = 480*5/4);
 	while(!jogo->sair){
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(jogo->event_queue, &ev);
@@ -131,6 +134,13 @@ void main_loop_jogo(Jogo* jogo){
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
 					desenha_menu(jogo->menu[MENU_DE_PAUSA], jogo->largura, jogo->altura);
+				}
+				break;
+			case MENU_OPCOES:
+				processa_menu(jogo, jogo->menu[MENU_DE_OPCOES], ev);
+				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
+					jogo->redraw = false;
+					desenha_menu(jogo->menu[MENU_DE_OPCOES], jogo->largura, jogo->altura);
 				}
 				break;
 			case GAME_OVER:
@@ -223,7 +233,7 @@ void allegro_event_queue_init(Jogo* jogo){
 void menu_inicial_init(Jogo* jogo){
 	jogo->menu[MENU_PRINCIPAL] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, true);
 	cria_botao(jogo->menu[MENU_PRINCIPAL], 0, "Novo jogo", game_start, jogo);
-	cria_botao(jogo->menu[MENU_PRINCIPAL], 1, "Opcoes", game_start, jogo);
+	cria_botao(jogo->menu[MENU_PRINCIPAL], 1, "Opcoes", ir_para_menu_de_opcoes, jogo);
 	cria_botao(jogo->menu[MENU_PRINCIPAL], 2, "Sair", sair_jogo, jogo);
 }
 void menu_pausa_init(Jogo* jogo){
@@ -233,16 +243,18 @@ void menu_pausa_init(Jogo* jogo){
 	cria_botao(jogo->menu[MENU_DE_PAUSA], 2, "Menu principal", ir_para_menu_inicial, jogo); 
 }
 void menu_opcoes_init(Jogo* jogo){
-	jogo->menu[MENU_DE_OPCOES] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 1, false);
-	cria_botao(jogo->menu[MENU_DE_OPCOES], 0, "Menu principal", game_start, jogo); 
+	jogo->menu[MENU_DE_OPCOES] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, false);
+	cria_botao(jogo->menu[MENU_DE_OPCOES], 0, "Aumenta resolucao", aumenta_tela, jogo); 
+	cria_botao(jogo->menu[MENU_DE_OPCOES], 1, "Dimunui resolucao", diminui_tela, jogo); 
+	cria_botao(jogo->menu[MENU_DE_OPCOES], 2, "Menu principal", ir_para_menu_inicial, jogo); 
 }
 
 //Funções usadas na inicialização da partida:
 void cria_escudos(Jogo* jogo){
-	for( int i = 0, x = (jogo->largura / N_ESCUDOS - TAMANHO_ESCUDO) / 2; 
+	for( int i = 0, x = (LARGURA_INICIAL / N_ESCUDOS - TAMANHO_ESCUDO) / 2; 
 		i < N_ESCUDOS; 
- 		i++, x += jogo->largura / N_ESCUDOS ) {
-		jogo->escudo[i] = inicializa_escudo( x, jogo->altura/4 * 3 );
+ 		i++, x += LARGURA_INICIAL / N_ESCUDOS ) {
+		jogo->escudo[i] = inicializa_escudo( x, ALTURA_INICIAL/4 * 3 );
 		if(!jogo->escudo[i]){
 			al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar imagem do escudo.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 			destroi_jogo(jogo);
@@ -251,7 +263,7 @@ void cria_escudos(Jogo* jogo){
 	}
 }
 void cria_tanque(Jogo* jogo){
-	jogo->tanque = inicializa_tanque(jogo->largura/2, jogo->altura/8 * 7);
+	jogo->tanque = inicializa_tanque(LARGURA_INICIAL/2, ALTURA_INICIAL/8 * 7);
 	if(!jogo->tanque){
 		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar imagem do tanque.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		destroi_jogo(jogo);
@@ -264,6 +276,22 @@ void finaliza_jogo(Jogo* jogo){
 		if(jogo->escudo[i]) jogo->escudo[i] = finaliza_escudo(jogo->escudo[i]);
 }
 
+void aumenta_tela(void* ptr){
+	Jogo* jogo = (Jogo*) ptr;
+	if (true){
+		jogo->largura += MEDIDA_RESIZE*4;
+		jogo->altura += MEDIDA_RESIZE*3;
+		al_resize_display(jogo->display, jogo->largura , jogo->altura);
+	}
+}
+void diminui_tela(void* ptr){
+	Jogo* jogo = (Jogo*) ptr;
+	if (jogo->largura > LARGURA_INICIAL){
+		jogo->largura -= MEDIDA_RESIZE*4;
+		jogo->altura -= MEDIDA_RESIZE*3;
+		al_resize_display(jogo->display, jogo->largura , jogo->altura);
+	}
+}
 void game_start(void* ptr){
 	Jogo* jogo = (Jogo*) ptr;
 	finaliza_jogo(jogo);
@@ -271,13 +299,23 @@ void game_start(void* ptr){
 	jogo->score = 0;
 	cria_escudos( jogo);
 	cria_tanque( jogo);
-	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, jogo->largura, jogo->altura, jogo->escudo, jogo->tanque, &jogo->vidas, &jogo->score);
+	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, jogo->tanque, &jogo->vidas, &jogo->score);
 	jogo->estado_do_jogo = PLAY;	
 }
 void ir_para_menu_inicial(void* ptr){
 	Jogo* jogo = (Jogo*) ptr;
-	jogo->estado_do_jogo = MENU_INICIAL;
 	finaliza_jogo(jogo);
+	reinicia_menu(jogo->menu[MENU_PRINCIPAL]);
+	jogo->estado_do_jogo = MENU_INICIAL;
+}
+void ir_para_menu_de_pausa(Jogo* jogo){
+	reinicia_menu(jogo->menu[MENU_DE_PAUSA]);
+	jogo->estado_do_jogo = MENU_PAUSA;
+}
+void ir_para_menu_de_opcoes(void* ptr){
+	Jogo* jogo = (Jogo*) ptr;
+	reinicia_menu(jogo->menu[MENU_DE_OPCOES]);
+	jogo->estado_do_jogo = MENU_OPCOES;
 }
 void voltar_ao_jogo(void* ptr){
 	Jogo* jogo = (Jogo*) ptr;
@@ -305,10 +343,7 @@ void get_keyboard_up(Jogo* jogo, ALLEGRO_EVENT ev){
 void get_keyboard_down(Jogo* jogo, ALLEGRO_EVENT ev){
 	switch (ev.keyboard.keycode){
 		case ALLEGRO_KEY_ESCAPE:
-			if(jogo->estado_do_jogo == PLAY)
-				jogo->estado_do_jogo = MENU_PAUSA;
-			else if(jogo->estado_do_jogo == MENU_PAUSA)
-				jogo->estado_do_jogo = PLAY;
+			ir_para_menu_de_pausa(jogo);
 			break;
 		case ALLEGRO_KEY_SPACE:
 			jogo->key[KEY_SPACE] = true;

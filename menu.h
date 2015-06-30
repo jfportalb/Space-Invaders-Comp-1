@@ -31,6 +31,8 @@ void cria_botao(Menu* menu, int pos_botao, const char texto[LETRAS_MAX_BOTAO], F
 
 void desenha_menu(Menu* menu, int largura, int altura);
 
+void reinicia_menu(Menu* menu);
+
 void menu_up(Menu* menu);
 
 void menu_down(Menu* menu);
