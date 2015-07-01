@@ -9,21 +9,15 @@ Escudo* inicializa_escudo( int posicao_x, int posicao_y ) {
 	escudo->posicao_y = posicao_y;
 	
 	for( int i = 0; i < PEDACOS_HORIZONTAL; i++ ) 
-	for( int j = 0; j < PEDACOS_VERTICAL; j++ ) {
-		escudo->pedaco[i][j] = INTEIRO;
-		escudo->desenho[i][j] = QUADRADO;
-	}
+		for( int j = 0; j < PEDACOS_VERTICAL; j++ ) {
+			escudo->pedaco[i][j] = 0;
+			escudo->desenho[i][j] = QUADRADO;
+		}
 		 
 	escudo->desenho[0][0] = SUDESTE;
 	escudo->desenho[7][0] = SUDOESTE;
 	escudo->desenho[2][2] = NOROESTE;
 	escudo->desenho[5][2] = NORDESTE;
-	escudo->desenho[2][3] = VAZIO;
-	escudo->desenho[3][3] = VAZIO;
-	escudo->desenho[3][2] = VAZIO;
-	escudo->desenho[4][3] = VAZIO;
-	escudo->desenho[4][2] = VAZIO;
-	escudo->desenho[5][3] = VAZIO;
 	escudo->pedaco[2][3] = DESTRUIDO;
 	escudo->pedaco[3][3] = DESTRUIDO;
 	escudo->pedaco[3][2] = DESTRUIDO;
@@ -60,7 +54,7 @@ bool colide_escudo(Escudo* escudo, Missil* missil){
 	int y = get_y_missil(missil);
 	x-=escudo->posicao_x;
 	y-=escudo->posicao_y;
-	if( x >= 0 && y >= 0 && x <= TAMANHO_PEDACO*PEDACOS_HORIZONTAL && y <=TAMANHO_PEDACO*PEDACOS_VERTICAL){
+	if( x >= 0 && y >= 0 && x < TAMANHO_PEDACO*PEDACOS_HORIZONTAL && y <=TAMANHO_PEDACO*PEDACOS_VERTICAL){
 		int pedaco_x = x/TAMANHO_PEDACO;
 		int pedaco_y = y/TAMANHO_PEDACO;
 		if(escudo->pedaco[pedaco_x][pedaco_y] != DESTRUIDO){
@@ -72,7 +66,7 @@ bool colide_escudo(Escudo* escudo, Missil* missil){
 }
 
 void desenha_pedaco_escudo( int x, int y, LegoEscudo lego, int estado, ALLEGRO_BITMAP* imagem[5][2]) {			 
-	if( lego != VAZIO && estado != DESTRUIDO)
+	if( estado != DESTRUIDO)
 		al_draw_bitmap(imagem[lego][estado], x, y, 0);
 }
 	

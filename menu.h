@@ -4,8 +4,8 @@
 #include "botao.h"
 #include <allegro5/allegro_image.h>
 
-#define BOTAO_NORMAL al_map_rgb(0, 100, 100)
-#define BOTAO_SELECIONADO al_map_rgb(0, 0, 0)
+#define BOTAO_NORMAL al_map_rgb(0, 0, 0)
+#define BOTAO_SELECIONADO al_map_rgb(200, 0, 0)
 
 struct Menu {
 	ALLEGRO_BITMAP* buffer;
@@ -25,7 +25,7 @@ struct Menu {
 	int *y_botoes, x_botoes;
 };
 
-Menu* inicializa_menu( ALLEGRO_FONT* fonte, int largura_jogo, int altura_jogo, int n_botoes, bool titulo);
+Menu* inicializa_menu( ALLEGRO_FONT* fonte, int largura_jogo, int altura_jogo, int n_botoes, const char* titulo);
 
 void cria_botao(Menu* menu, int pos_botao, const char texto[LETRAS_MAX_BOTAO], Funcao retorno, void* parametro_retorno);
 

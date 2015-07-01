@@ -231,19 +231,19 @@ void allegro_event_queue_init(Jogo* jogo){
 }
 
 void menu_inicial_init(Jogo* jogo){
-	jogo->menu[MENU_PRINCIPAL] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, true);
+	jogo->menu[MENU_PRINCIPAL] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, "imagens/title.png");
 	cria_botao(jogo->menu[MENU_PRINCIPAL], 0, "Novo jogo", game_start, jogo);
 	cria_botao(jogo->menu[MENU_PRINCIPAL], 1, "Opcoes", ir_para_menu_de_opcoes, jogo);
 	cria_botao(jogo->menu[MENU_PRINCIPAL], 2, "Sair", sair_jogo, jogo);
 }
 void menu_pausa_init(Jogo* jogo){
-	jogo->menu[MENU_DE_PAUSA] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, false);
+	jogo->menu[MENU_DE_PAUSA] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, "imagens/pausa.png");
 	cria_botao(jogo->menu[MENU_DE_PAUSA], 0, "Voltar ao jogo", voltar_ao_jogo, jogo);
 	cria_botao(jogo->menu[MENU_DE_PAUSA], 1, "Novo jogo", game_start, jogo);
 	cria_botao(jogo->menu[MENU_DE_PAUSA], 2, "Menu principal", ir_para_menu_inicial, jogo); 
 }
 void menu_opcoes_init(Jogo* jogo){
-	jogo->menu[MENU_DE_OPCOES] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, false);
+	jogo->menu[MENU_DE_OPCOES] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, 0);
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 0, "Aumenta resolucao", aumenta_tela, jogo); 
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 1, "Dimunui resolucao", diminui_tela, jogo); 
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 2, "Menu principal", ir_para_menu_inicial, jogo); 

@@ -6,6 +6,9 @@
 #include "escudo.h"
 #include "tanque.h"
 
+#define N_ESCUDOS 7
+
+
 struct Buffer{
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_BITMAP* buffer;

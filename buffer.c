@@ -25,7 +25,7 @@ void processa_colisao(Buffer* buffer){
 		if( get_y_missil(missil) < 0)
 			destroi_missil_tanque(buffer->tanque);
 		else
-			for (int i = 0; i < 4 && missil; i++)
+			for (int i = 0; i < N_ESCUDOS && missil; i++)
 				if (colide_escudo(buffer->escudo[i], missil)){
 					destroi_missil_tanque(buffer->tanque);
 					break;
@@ -41,7 +41,7 @@ void desenha_buffer(Buffer* buffer, int largura, int altura){
 	al_set_target_bitmap(buffer->buffer);
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 
-	for( int i = 0; i < 4; i++ )
+	for( int i = 0; i < N_ESCUDOS; i++ )
 		desenha_escudo( buffer->escudo[i] );
 
 	desenha_tanque(buffer->tanque);

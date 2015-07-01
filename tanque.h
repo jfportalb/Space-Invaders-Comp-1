@@ -7,7 +7,8 @@
 #define PASSO 5
 
 struct Tanque{
-	int posicao_x, posicao_y, delta_x;
+	int posicao_x, posicao_y;
+	int delta_x, altura;
 	ALLEGRO_BITMAP* imagem;
 	Missil* missil;
 	float velocidade;

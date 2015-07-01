@@ -15,6 +15,8 @@ Tanque* inicializa_tanque( int posicao_x, int posicao_y){
 	if(!tanque->imagem)
 		tanque = NULL;
 
+	tanque->altura = al_get_bitmap_height(tanque->imagem);
+
 	return tanque;
 }
 
@@ -49,6 +51,17 @@ void atira_tanque(Tanque* tanque){
 
 void destroi_missil_tanque(Tanque* tanque){
 	tanque->missil = destroi_missil(tanque->missil);
+}
+
+bool colide_tanque(Tanque* tanque, Missil* missil){
+	int x = get_x_missil(missil);
+	int y = get_y_missil(missil);
+	x-=tanque->posicao_x - tanque->delta_x;
+	y-=tanque->posicao_y;
+	if( x >= 0 && y >= 0 && x < tanque->delta_x*2 && y <= tanque->altura){
+		return true;
+	}
+	return false;
 }
 
 int get_posicao_x_min_tanque (Tanque* tanque){

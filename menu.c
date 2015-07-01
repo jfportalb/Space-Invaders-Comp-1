@@ -1,21 +1,18 @@
 # include "menu.h"
-# define ESCALA_TITULO 3
 
-void inicializa_titulo(Menu * menu, int largura_jogo) {
-	menu->titulo = al_load_bitmap("imagens/title.png");
-	menu->titulo_width = al_get_bitmap_width(menu->titulo);
-	menu->titulo_height = al_get_bitmap_height(menu->titulo);
+#define BORDA 25
+
+void inicializa_titulo(Menu * menu, int largura_jogo, const char* titulo) {
+	menu->titulo = al_load_bitmap(titulo);
 	if (!menu->titulo) {
 		fprintf(stderr, "%s\n", "Falha ao inicializar imagem de título.");
 		exit(1);
 	}
-	menu->delta_x = menu->titulo_width*ESCALA_TITULO/2;
-	menu->delta_y = menu->titulo_height*ESCALA_TITULO/2;
-	menu->titulo_pos_x = largura_jogo/2 - menu->delta_x;
-	menu->titulo_pos_y = menu->delta_y/2;
+	menu->titulo_pos_x = largura_jogo/2 - al_get_bitmap_width(menu->titulo)/2;
+	menu->titulo_pos_y = BORDA ;
 }
 
-Menu * inicializa_menu(ALLEGRO_FONT * fonte, int largura_jogo, int altura_jogo, int n_botoes, bool titulo) {
+Menu * inicializa_menu(ALLEGRO_FONT * fonte, int largura_jogo, int altura_jogo, int n_botoes, const char* titulo) {
 	Menu * menu = (Menu * ) malloc(sizeof(Menu));
 	
 	menu->largura = largura_jogo;
@@ -34,13 +31,13 @@ Menu * inicializa_menu(ALLEGRO_FONT * fonte, int largura_jogo, int altura_jogo, 
 	menu->y_botoes = (int * ) malloc(sizeof(int) * n_botoes);
 	
 	if (titulo) {
-		inicializa_titulo(menu, largura_jogo);
+		inicializa_titulo(menu, largura_jogo, titulo);
 		for (int i = 0; i < menu->numero_botoes; i++)
-			menu->y_botoes[i] = altura_jogo / 2 + 20 +  botoes_y_offset * i;
+			menu->y_botoes[i] = menu->titulo_pos_y + al_get_bitmap_height(menu->titulo) +  BORDA + botoes_y_offset * i;
 	}
 	else {
 		for (int i = 0; i < menu->numero_botoes; i++)
-			menu->y_botoes[i] = altura_jogo / 2 + botoes_y_offset * i;
+			menu->y_botoes[i] = BORDA + botoes_y_offset * i;
 		menu->titulo = NULL;
 	}
 
@@ -57,8 +54,7 @@ void desenha_menu(Menu * menu, int largura, int altura) {
 
 	al_clear_to_color(al_map_rgb(250, 250, 250));
 	if (menu->titulo){
-		al_draw_scaled_bitmap(menu->titulo, 0, 0, menu->titulo_width, menu->titulo_height, menu->titulo_pos_x,
-						  menu->titulo_pos_y, menu->titulo_width*ESCALA_TITULO, menu->titulo_height*ESCALA_TITULO, 0);
+		al_draw_bitmap(menu->titulo, menu->titulo_pos_x, menu->titulo_pos_y, 0);
 	}
 	for (int i = 0; i < menu->numero_botoes; i++)
 		if (i == menu->botao_selecionado)

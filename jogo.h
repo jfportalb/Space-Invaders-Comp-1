@@ -12,8 +12,6 @@
 
 #define FPS 60
 #define N_KEYS 3
-#define N_ESCUDOS 4
-#define MAX_MISSEIS 50
 
 //Medidas do display para que o jogo fique proporcional.
 #define LARGURA_INICIAL 640
@@ -49,9 +47,8 @@ struct Jogo{
 	Menu* menu[3];
 	
 	Buffer* buffer;
-	Escudo* escudo[4];
+	Escudo* escudo[N_ESCUDOS];
 	Tanque* tanque;
-	int ponta_missil[MAX_MISSEIS][2];
 };
 
 void inicializa_jogo(Jogo* jogo );
