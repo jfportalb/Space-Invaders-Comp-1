@@ -1,5 +1,5 @@
-lall: jogo.o escudo.o alien.o missil.o tanque.o buffer.o menu.o botao.o space.c
-	g++ space.c jogo.o escudo.o alien.o missil.o tanque.o buffer.o menu.o botao.o -o space -lallegro -lallegro_dialog -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf
+lall: jogo.o escudo.o alien.o missil.o tanque.o buffer.o menu.o botao.o wave.o space.c
+	g++ space.c jogo.o escudo.o alien.o wave.o missil.o tanque.o buffer.o menu.o botao.o -o space -lallegro -lallegro_dialog -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf
 alien.o: alien.c
 	g++ -c alien.c
 botao.o: botao.c
@@ -16,6 +16,8 @@ missil.o: missil.c
 	g++ -c missil.c
 tanque.o: tanque.c
 	g++ -c tanque.c
+wave.o: wave.c
+	g++ -c wave.c
 clean:
 	rm -f jogo.o escudo.o alien.o missil.o tanque.o vetor.o buffer.o botao.o menu.o
 git:
