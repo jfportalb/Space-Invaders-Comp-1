@@ -9,7 +9,6 @@
 #include "missil.h"
 #include "buffer.h"
 #include "menu.h"
-#include "wave.h"
 
 #define FPS 60
 #define N_KEYS 3
@@ -52,7 +51,6 @@ struct Jogo{
 	Buffer* buffer;
 	Escudo* escudo[4];
 	Tanque* tanque;
-	wave* invasores;
 	int ponta_missil[MAX_MISSEIS][2];
 };
 

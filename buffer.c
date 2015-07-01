@@ -19,9 +19,22 @@ Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int la
 	return buffer;
 }
 
+void processa_colisao(Buffer* buffer){
+	Missil* missil = get_missil_tanque(buffer->tanque);
+	if (missil)
+		if( get_y_missil(missil) < 0)
+			destroi_missil_tanque(buffer->tanque);
+		else
+			for (int i = 0; i < 4 && missil; i++)
+				if (colide_escudo(buffer->escudo[i], missil)){
+					destroi_missil_tanque(buffer->tanque);
+					break;
+				}
+}
+
 void processa_buffer(Buffer* buffer){
 	processa_tanque(buffer->tanque);
-	// processa_horda(buffer->horda);
+	processa_colisao(buffer);
 }
 
 void desenha_buffer(Buffer* buffer, int largura, int altura){

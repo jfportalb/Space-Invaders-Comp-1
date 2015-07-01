@@ -67,7 +67,6 @@ void inicializa_jogo (Jogo* jogo){
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
 	jogo->tanque = NULL;
-	jogo->invasores = NULL;
 }
 
 void processa_menu(Jogo* jogo, Menu* menu, ALLEGRO_EVENT ev){
@@ -108,8 +107,6 @@ void processa_jogo(Jogo* jogo, ALLEGRO_EVENT ev){
 
 void desenha_jogo(Jogo* jogo){
 	desenha_buffer(jogo->buffer, jogo->largura, jogo->altura);
-	draw_wave(jogo->invasores);
-	al_flip_display();
 }
 
 void main_loop_jogo(Jogo* jogo){
@@ -254,7 +251,7 @@ void menu_opcoes_init(Jogo* jogo){
 
 //Funções usadas na inicialização da partida:
 void cria_escudos(Jogo* jogo){
-	for( int i = 0, x = (LARGURA_INICIAL / N_ESCUDOS - TAMANHO_ESCUDO) / 2; 
+	for( int i = 0, x = (LARGURA_INICIAL / N_ESCUDOS - TAMANHO_PEDACO*PEDACOS_HORIZONTAL) / 2; 
 		i < N_ESCUDOS; 
  		i++, x += LARGURA_INICIAL / N_ESCUDOS ) {
 		jogo->escudo[i] = inicializa_escudo( x, ALTURA_INICIAL/4 * 3 );
@@ -302,7 +299,6 @@ void game_start(void* ptr){
 	jogo->score = 0;
 	cria_escudos( jogo);
 	cria_tanque( jogo);
-	jogo->invasores = create_wave();
 	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, jogo->tanque, &jogo->vidas, &jogo->score);
 	jogo->estado_do_jogo = PLAY;	
 }

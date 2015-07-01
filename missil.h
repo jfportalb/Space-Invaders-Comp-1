@@ -4,7 +4,7 @@
 #include <allegro5/allegro.h>
 
 struct Missil{
-	int ponta[2];
+	int pos_x, pos_y;
 	ALLEGRO_BITMAP* imagem;
 	float velocidade[2];
 	int delta_x;
@@ -18,6 +18,8 @@ void desenha_missil(Missil* missil);
 
 Missil* destroi_missil(Missil* missil);
 
-int* get_ponta_missil(Missil* missil);
+int get_y_missil(Missil* missil);
+
+int get_x_missil(Missil* missil);
 
 #endif

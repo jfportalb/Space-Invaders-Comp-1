@@ -1,5 +1,3 @@
-
-
 #include <allegro5/allegro.h>
 #include <stdio.h>
 
@@ -51,17 +49,36 @@ Escudo* inicializa_escudo( int posicao_x, int posicao_y ) {
 		}
 
 	return escudo;
-}	
+}
 
+void acerta_pedaco( Escudo* escudo, int pedaco_x, int pedaco_y){
+	(escudo->pedaco[pedaco_x][pedaco_y]) ++;
+}
 
-void desenha_pedaco_escudo( int x, int y, LegoEscudo lego, EstadoEscudo estado, ALLEGRO_BITMAP* imagem[5][2]) {			 
+bool colide_escudo(Escudo* escudo, Missil* missil){
+	int x = get_x_missil(missil);
+	int y = get_y_missil(missil);
+	x-=escudo->posicao_x;
+	y-=escudo->posicao_y;
+	if( x >= 0 && y >= 0 && x <= TAMANHO_PEDACO*PEDACOS_HORIZONTAL && y <=TAMANHO_PEDACO*PEDACOS_VERTICAL){
+		int pedaco_x = x/TAMANHO_PEDACO;
+		int pedaco_y = y/TAMANHO_PEDACO;
+		if(escudo->pedaco[pedaco_x][pedaco_y] != DESTRUIDO){
+			acerta_pedaco(escudo, pedaco_x, pedaco_y);
+			return true;
+		}
+	}
+	return false;
+}
+
+void desenha_pedaco_escudo( int x, int y, LegoEscudo lego, int estado, ALLEGRO_BITMAP* imagem[5][2]) {			 
 	if( lego != VAZIO && estado != DESTRUIDO)
 		al_draw_bitmap(imagem[lego][estado], x, y, 0);
 }
 	
 void desenha_escudo( Escudo* escudo ) {
-	for( int i = 0, x = escudo->posicao_x; i < PEDACOS_HORIZONTAL; i++, x += TAMANHO_ESCUDO / PEDACOS_HORIZONTAL )
-		for( int j = 0, y = escudo->posicao_y; j < PEDACOS_VERTICAL; j++, y += TAMANHO_ESCUDO / 8 )
+	for( int i = 0, x = escudo->posicao_x; i < PEDACOS_HORIZONTAL; i++, x += TAMANHO_PEDACO )
+		for( int j = 0, y = escudo->posicao_y; j < PEDACOS_VERTICAL; j++, y += TAMANHO_PEDACO )
 			desenha_pedaco_escudo( x, y, escudo->desenho[i][j], escudo->pedaco[i][j], escudo->imagem);		 
 }
 
