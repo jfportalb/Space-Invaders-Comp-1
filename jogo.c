@@ -251,7 +251,7 @@ void menu_opcoes_init(Jogo* jogo){
 
 //Funções usadas na inicialização da partida:
 void cria_escudos(Jogo* jogo){
-	for( int i = 0, x = (LARGURA_INICIAL / N_ESCUDOS - TAMANHO_ESCUDO) / 2; 
+	for( int i = 0, x = (LARGURA_INICIAL / N_ESCUDOS - TAMANHO_PEDACO*PEDACOS_HORIZONTAL) / 2; 
 		i < N_ESCUDOS; 
  		i++, x += LARGURA_INICIAL / N_ESCUDOS ) {
 		jogo->escudo[i] = inicializa_escudo( x, ALTURA_INICIAL/4 * 3 );
