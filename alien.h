@@ -37,6 +37,8 @@ void anima_alien(struct alien* obj);
 void move_alien_horizontal(struct alien* obj, int speed);
  
 void move_alien_baixo(struct alien* obj, int speed);
+
+bool acerta_alien(struct alien* obj, int x, int y);
  
 //Troca o sprite de um dado alien pelo sprite de explosão por um dado tempo antes de chamar destroy_alien()
 void explode_alien(struct alien* obj);

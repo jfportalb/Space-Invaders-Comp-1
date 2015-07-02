@@ -81,3 +81,10 @@ void move_alien_baixo(struct alien* obj, int speed) {
  
     obj->y += speed;
 }
+
+bool acerta_alien(struct alien* obj, int x, int y){
+    if( x >= obj->x && x < obj->x + ALIEN_SIZE && y >= obj->y && y < obj->y + ALIEN_SIZE)
+        return true;
+    else
+        return false;
+}

@@ -22,5 +22,7 @@ wave* create_wave(int y_inicial, int n_aliens);
 void draw_wave(struct wave* obj);
  
 void processa_wave(struct wave* obj);
+
+bool colide_wave(struct wave* invasores, Missil* missil);
  
 #endif

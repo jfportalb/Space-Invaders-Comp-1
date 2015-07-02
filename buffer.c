@@ -26,6 +26,8 @@ void processa_colisao(Buffer* buffer){
 	if (missil)
 		if( get_y_missil(missil) < 0)
 			destroi_missil_tanque(buffer->tanque);
+		else if(colide_wave(buffer->invasores, missil))
+			destroi_missil_tanque(buffer->tanque);
 		else
 			for (int i = 0; i < buffer->n_escudos && missil; i++)
 				if (colide_escudo(buffer->escudo[i], missil)){

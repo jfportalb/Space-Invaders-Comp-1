@@ -146,13 +146,23 @@ bool colide_wave(wave* invasores, Missil* missil){
 	int y = get_y_missil(missil);
 	x-= invasores->x;
 	y-= invasores->y;
-	if( x >= 0 && y >= 0 && x <  invasores->wave_width && y <= ALIEN_SIZE * invasores->linhas){
-		// int pedaco_x = x/TAMANHO_PEDACO;
-		// int pedaco_y = y/TAMANHO_PEDACO;
-		// if(escudo->pedaco[pedaco_x][pedaco_y] != DESTRUIDO){
-		// 	acerta_pedaco(escudo, pedaco_x, pedaco_y);
-			return true;
-		// }
+	if( x >= 0 && y >= 0 && x <  invasores->wave_width && y <= ALIEN_SIZE * invasores->linhas + ALIEN_SPACING * (invasores->linhas - 1)){
+		int coluna = x/(ALIEN_SIZE + ALIEN_SPACING);
+		int linha = y/(ALIEN_SIZE + ALIEN_SPACING);
+		switch (linha){
+			case 0:
+				// if ( acerta_alien (invasores->squids[coluna], get_x_missil(missil), get_y_missil(missil)))
+				// 	return true;
+				break;
+			case 1: case 2:
+				// if ( acerta_alien (invasores->jellyfishes[linha-1][coluna], get_x_missil(missil), get_y_missil(missil)))
+				// 	return true;
+				break;
+			case 3: case 4:
+				// if ( acerta_alien (invasores->crabs[linha-3][coluna], get_x_missil(missil), get_y_missil(missil)))
+				// 	return true;
+				break;
+		}
 	}
 	return false;
 }
