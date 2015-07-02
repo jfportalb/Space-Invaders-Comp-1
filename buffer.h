@@ -5,9 +5,7 @@
 #include <allegro5/allegro_font.h>
 #include "escudo.h"
 #include "tanque.h"
-
-#define N_ESCUDOS 7
-
+#include "wave.h"
 
 struct Buffer{
 	ALLEGRO_DISPLAY* display;
@@ -18,10 +16,12 @@ struct Buffer{
 	int* vidas, *score;
 
 	Escudo** escudo;
+	int n_escudos;
 	Tanque* tanque;
+	wave* invasores;
 };
 
-Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], Tanque *tanque, int* vidas, int* score);
+Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, int* vidas, int* score);
 
 void processa_buffer(Buffer* buffer);
 

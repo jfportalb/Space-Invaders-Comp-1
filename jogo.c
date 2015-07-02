@@ -271,6 +271,7 @@ void cria_tanque(Jogo* jogo){
 	}
 }
 void finaliza_jogo(Jogo* jogo){
+	// jogo->invasores = deestroi_wave(jogo->invasores);
 	if(jogo->tanque) jogo-> tanque = destroi_tanque(jogo->tanque);
 	for(int i=0; i<N_ESCUDOS; i++)
 		if(jogo->escudo[i]) jogo->escudo[i] = finaliza_escudo(jogo->escudo[i]);
@@ -299,7 +300,9 @@ void game_start(void* ptr){
 	jogo->score = 0;
 	cria_escudos( jogo);
 	cria_tanque( jogo);
-	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, jogo->tanque, &jogo->vidas, &jogo->score);
+	jogo->invasores = create_wave(50, N_ALIEN);
+	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, N_ESCUDOS, 
+									 jogo->tanque, jogo->invasores, &jogo->vidas, &jogo->score);
 	jogo->estado_do_jogo = PLAY;	
 }
 void ir_para_menu_inicial(void* ptr){

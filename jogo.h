@@ -7,11 +7,14 @@
 #include "escudo.h"
 #include "tanque.h"
 #include "missil.h"
+#include "wave.h"
 #include "buffer.h"
 #include "menu.h"
 
 #define FPS 60
 #define N_KEYS 3
+#define N_ESCUDOS 4
+#define N_ALIEN 11
 
 //Medidas do display para que o jogo fique proporcional.
 #define LARGURA_INICIAL 640
@@ -49,6 +52,7 @@ struct Jogo{
 	Buffer* buffer;
 	Escudo* escudo[N_ESCUDOS];
 	Tanque* tanque;
+	wave* invasores;
 };
 
 void inicializa_jogo(Jogo* jogo );
