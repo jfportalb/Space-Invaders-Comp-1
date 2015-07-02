@@ -33,5 +33,7 @@ int colide_wave(struct wave* invasores, Missil* missil);
 int get_bottom_wave(wave* obj);
 
 Missil* get_missil_wave(wave* obj, int n_missil);
+
+void destroi_missil_wave(wave* obj, int n_missil);
  
 #endif

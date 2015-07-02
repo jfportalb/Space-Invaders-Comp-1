@@ -27,8 +27,6 @@ void tanque_move_direita(Tanque* tanque);
 
 void atira_tanque(Tanque* tanque);
 
-void destroi_missil_tanque(Tanque* tanque);
-
 int get_posicao_x_min_tanque (Tanque* tanque);
 
 int get_posicao_x_max_tanque (Tanque* tanque);
@@ -38,6 +36,8 @@ int get_top_tanque ( Tanque* tanque );
 void processa_tanque(Tanque* tanque);
 
 Missil* get_missil_tanque(Tanque* tanque);
+
+void destroi_missil_tanque(Tanque* tanque);
 
 Tanque* destroi_tanque(Tanque* tanque);
 

@@ -152,6 +152,10 @@ Missil* get_missil_wave(wave* obj, int n_missil){
         return NULL;
 }
 
+void destroi_missil_wave(wave* obj, int n_missil){
+    obj->missil[n_missil] = destroi_missil(obj->missil[n_missil]);
+}
+
 //Agrupa em uma única função toda a lógica de movimentação e animação da wave. Essa função é
 //chamada em processa_jogo() toda vez que um ALLEGRO_EVENT_TIMER é recebido
 void processa_wave(struct wave* obj) {

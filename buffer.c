@@ -35,13 +35,26 @@ void processa_colisao(Buffer* buffer){
 				destroi_missil_tanque(buffer->tanque);
 			}
 		}
-		else
+		else 
 			for (int i = 0; i < buffer->n_escudos && missil_tanque; i++)
 				if (colide_escudo(buffer->escudo[i], missil_tanque)){
 					destroi_missil_tanque(buffer->tanque);
 					break;
 				}
 		}
+	for (int i=0; i<MAX_MISSEIS; i++){
+		Missil* missil_wave = get_missil_wave(buffer->invasores, i);
+		if (missil_wave){
+			if ( get_y_missil(missil_wave) > buffer->altura_inicial)
+				destroi_missil_wave(buffer->invasores, i);
+			else
+				for (int j = 0; j < buffer->n_escudos && missil_wave; j++)
+					if (colide_escudo(buffer->escudo[j], missil_wave)){
+						destroi_missil_wave(buffer->invasores, i);
+						break;
+					}
+		}
+	}
 }
 //Te q escrever algo aqui.
 void game_over(){
