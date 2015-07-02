@@ -6,6 +6,7 @@
 #include "escudo.h"
 #include "tanque.h"
 #include "wave.h"
+#include "nave.h"
 
 struct Buffer{
 	ALLEGRO_DISPLAY* display;
@@ -19,9 +20,10 @@ struct Buffer{
 	int n_escudos;
 	Tanque* tanque;
 	wave* invasores;
+	nave* ovni;
 };
 
-Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, int* vidas, int* score);
+Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, nave* ovni, int* vidas, int* score);
 
 void processa_buffer(Buffer* buffer);
 

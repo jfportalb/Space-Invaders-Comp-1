@@ -302,9 +302,10 @@ void game_start(void* ptr){
 	jogo->score = 0;
 	cria_escudos( jogo);
 	cria_tanque( jogo);
-	jogo->invasores = create_wave(50, N_ALIEN);
+	jogo->invasores = create_wave(70, N_ALIEN);
+	jogo->ovni = cria_nave(50, 5, 10, 2);
 	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, N_ESCUDOS, 
-									 jogo->tanque, jogo->invasores, &jogo->vidas, &jogo->score);
+									 jogo->tanque, jogo->invasores, jogo->ovni,&jogo->vidas, &jogo->score);
 	jogo->estado_do_jogo = PLAY;	
 }
 void ir_para_menu_inicial(void* ptr){

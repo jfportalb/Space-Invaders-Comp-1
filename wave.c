@@ -50,7 +50,7 @@ wave* create_wave(int y_inicial, int n_aliens) {
     for (int i=0; i<MAX_MISSEIS; i++){
         obj->missil[i]=NULL;
     }
-    int missil_atual = 0;
+    obj->missil_atual = 0;
     return obj;
 }
 void draw_wave(struct wave* obj) {
@@ -69,6 +69,9 @@ void draw_wave(struct wave* obj) {
         if(obj->crabs[1][i])
             draw_alien(obj->crabs[1][i]);
     }
+    for(i=0; i<MAX_MISSEIS; i++)
+        if(obj->missil[i]) desenha_missil(obj->missil[i]);
+
 }
 void anima_wave(struct wave* obj) {
  
@@ -126,18 +129,18 @@ void move_wave_baixo(struct wave* obj) {
 }
 
 void atira_wave (struct wave* obj){
-    puts ("AH");
     int coluna = rand() % obj->n_aliens;
+    printf("%d\n", coluna);
     if (obj->crabs[1][coluna])
-        obj->missil[obj->missil_atual] = NULL;//atira_alien(obj->crabs[1][coluna], obj->missil[obj->missil_atual]);
-    // else if (obj->crabs[0][coluna])
-    //     obj->missil[obj->missil_atual] = atira_alien(obj->crabs[0][coluna], obj->missil[obj->missil_atual]);
-    // else if (obj->jellyfishes[1])
-    //     obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[1][coluna], obj->missil[obj->missil_atual]);
-    // else if (obj->jellyfishes[0][coluna])
-    //     obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[0][coluna], obj->missil[obj->missil_atual]);
-    // else if (obj->squids[coluna])
-    //     obj->missil[obj->missil_atual] = atira_alien(obj->squids[coluna], obj->missil[obj->missil_atual]);
+        obj->missil[obj->missil_atual] = atira_alien(obj->crabs[1][coluna], obj->missil[obj->missil_atual]);
+    else if (obj->crabs[0][coluna])
+        obj->missil[obj->missil_atual] = atira_alien(obj->crabs[0][coluna], obj->missil[obj->missil_atual]);
+    else if (obj->jellyfishes[1])
+        obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[1][coluna], obj->missil[obj->missil_atual]);
+    else if (obj->jellyfishes[0][coluna])
+        obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[0][coluna], obj->missil[obj->missil_atual]);
+    else if (obj->squids[coluna])
+        obj->missil[obj->missil_atual] = atira_alien(obj->squids[coluna], obj->missil[obj->missil_atual]);
     obj->missil_atual = (obj->missil_atual+1) % MAX_MISSEIS;
 }
 

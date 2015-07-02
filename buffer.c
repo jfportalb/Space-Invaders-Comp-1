@@ -1,7 +1,7 @@
 #include "buffer.h"
 #include <stdio.h>
 
-Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, int* vidas, int* score){
+Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, nave* ovni, int* vidas, int* score){
 	Buffer* buffer = (Buffer*) malloc (sizeof(Buffer));
 
 	buffer->vidas = vidas;
@@ -17,6 +17,7 @@ Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int la
 	buffer->n_escudos = n_escudos;
 	buffer->tanque = tanque;
 	buffer->invasores = invasores;
+	buffer->ovni = ovni;
 
 	return buffer;
 }
@@ -44,6 +45,8 @@ void game_over(){
 
 void processa_buffer(Buffer* buffer){
 	processa_wave(buffer->invasores);
+	processa_nave(buffer->ovni);
+	move_nave(buffer->ovni);
 	processa_tanque(buffer->tanque);
 	processa_colisao(buffer);
 
@@ -59,6 +62,7 @@ void desenha_buffer(Buffer* buffer, int largura, int altura){
 		desenha_escudo( buffer->escudo[i] );
 
 	draw_wave(buffer->invasores);
+	desenha_nave(buffer->ovni);
 
 	desenha_tanque(buffer->tanque);
 	char strScore[100];
