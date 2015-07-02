@@ -14,8 +14,8 @@ wave* create_wave(int y_inicial, int n_aliens) {
     obj->x = 72; 
     obj->y = y_inicial;
     obj->anima_contador = 0;
-    obj->ritmo = 55;
-    obj->velocidade = 8;
+    obj->ritmo = 20;
+    obj->velocidade = ALIEN_SPEED;
 
     obj->n_aliens = n_aliens;
     obj->wave_width = (n_aliens * ALIEN_SIZE) + ((n_aliens - 1) * ALIEN_SPACING);
@@ -42,6 +42,10 @@ wave* create_wave(int y_inicial, int n_aliens) {
         for(j = 0; j < obj->n_aliens; j++) {
             obj->crabs[i][j] = create_alien(obj->x + j*(ALIEN_SIZE + ALIEN_SPACING), obj->y + (i + 3) * (ALIEN_SIZE), CRAB);
         }
+    }
+
+    for (int i=0; i<5; i++){
+        obj->aliens_mortos[i]=0;
     }
     return obj;
 }
@@ -116,6 +120,12 @@ void move_wave_baixo(struct wave* obj) {
             move_alien_baixo(obj->crabs[1][i], velocidade);
     }
 }
+
+void atira_wave (struct wave* obj){
+    int shooter = rand() % obj->n_aliens;
+    
+}
+
 //Agrupa em uma única função toda a lógica de movimentação e animação da wave. Essa função é
 //chamada em processa_jogo() toda vez que um ALLEGRO_EVENT_TIMER é recebido
 void processa_wave(struct wave* obj) {
@@ -146,23 +156,55 @@ bool colide_wave(wave* invasores, Missil* missil){
 	int y = get_y_missil(missil);
 	x-= invasores->x;
 	y-= invasores->y;
-	if( x >= 0 && y >= 0 && x <  invasores->wave_width && y <= ALIEN_SIZE * invasores->linhas + ALIEN_SPACING * (invasores->linhas - 1)){
+	if( x >= 0 && y >= 0 && x <  invasores->wave_width && y < ALIEN_SIZE * invasores->linhas + ALIEN_SPACING * (invasores->linhas - 1)){
 		int coluna = x/(ALIEN_SIZE + ALIEN_SPACING);
-		int linha = y/(ALIEN_SIZE + ALIEN_SPACING);
-		switch (linha){
-			case 0:
-				// if ( acerta_alien (invasores->squids[coluna], get_x_missil(missil), get_y_missil(missil)))
-				// 	return true;
-				break;
-			case 1: case 2:
-				// if ( acerta_alien (invasores->jellyfishes[linha-1][coluna], get_x_missil(missil), get_y_missil(missil)))
-				// 	return true;
-				break;
-			case 3: case 4:
-				// if ( acerta_alien (invasores->crabs[linha-3][coluna], get_x_missil(missil), get_y_missil(missil)))
-				// 	return true;
+		int linha = (y + ALIEN_SPACING)/(ALIEN_SIZE + ALIEN_SPACING);
+        switch (linha){
+            case 0:
+                if ( acerta_alien (invasores->squids[coluna], get_x_missil(missil), get_y_missil(missil))){
+                    invasores->squids[coluna] = NULL;
+                    invasores->aliens_mortos[0] ++;
+                    if ( invasores->aliens_mortos[0] == invasores->n_aliens) invasores->linhas--;
+                    return true;
+                }
+                break;
+            case 1:
+                if ( acerta_alien (invasores->jellyfishes[0][coluna], get_x_missil(missil), get_y_missil(missil))){
+                    invasores->jellyfishes[0][coluna] = NULL;
+                    invasores->aliens_mortos[1] ++;
+                    if ( invasores->aliens_mortos[1] == invasores->n_aliens) invasores->linhas--;
+                    return true;
+                }
+                break;
+            case 2:
+                if ( acerta_alien (invasores->jellyfishes[1][coluna], get_x_missil(missil), get_y_missil(missil))){
+                    invasores->jellyfishes[1][coluna] = NULL;
+                    invasores->aliens_mortos[2] ++;
+                    if ( invasores->aliens_mortos[2] == invasores->n_aliens) invasores->linhas--;
+                    return true;
+                }
+                break;
+            case 3:
+                if ( acerta_alien (invasores->crabs[0][coluna], get_x_missil(missil), get_y_missil(missil))){
+                    invasores->crabs[0][coluna] = NULL;
+                    invasores->aliens_mortos[3] ++;
+                    if ( invasores->aliens_mortos[3] == invasores->n_aliens) invasores->linhas--;
+                    return true;
+                }
+                break;
+            case 4:
+                if ( acerta_alien (invasores->crabs[1][coluna], get_x_missil(missil), get_y_missil(missil))){
+                    invasores->crabs[1][coluna] = NULL;
+                    invasores->aliens_mortos[4] ++;
+                    if ( invasores->aliens_mortos[4] == invasores->n_aliens) invasores->linhas--;
+					return true;
+                }
 				break;
 		}
 	}
 	return false;
+}
+
+int get_bottom_wave(wave* obj){
+    return obj->linhas * ALIEN_SIZE + (obj->linhas - 1) * ALIEN_SPACING;
 }

@@ -23,6 +23,10 @@ bool colide_escudo(Escudo* escudo, Missil* missil);
 
 void desenha_escudo( Escudo* escudo );
 
+int get_top_escudo ( Escudo* escudo);
+
+int get_bottom_escudo ( Escudo* escudo);
+
 Escudo* finaliza_escudo( Escudo *escudo );
 
 #endif

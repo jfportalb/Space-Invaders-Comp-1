@@ -46,7 +46,7 @@ void tanque_move_direita(Tanque* tanque){
 
 void atira_tanque(Tanque* tanque){
 	if(!tanque->missil)
-		tanque->missil = cria_missil(tanque->posicao_x, tanque->posicao_y, 0, -10);
+		tanque->missil = cria_missil(tanque->posicao_x, tanque->posicao_y, 0, -VEL_MISSIL);
 }
 
 void destroi_missil_tanque(Tanque* tanque){
@@ -58,7 +58,7 @@ bool colide_tanque(Tanque* tanque, Missil* missil){
 	int y = get_y_missil(missil);
 	x-=tanque->posicao_x - tanque->delta_x;
 	y-=tanque->posicao_y;
-	if( x >= 0 && y >= 0 && x < tanque->delta_x*2 && y <= tanque->altura){
+	if( y >= 0 && y <= tanque->altura && x < tanque->delta_x*2 && x >= 0){
 		return true;
 	}
 	return false;
@@ -70,6 +70,10 @@ int get_posicao_x_min_tanque (Tanque* tanque){
 
 int get_posicao_x_max_tanque (Tanque* tanque){
 	return tanque->posicao_x + tanque->delta_x;
+}
+
+int get_top_tanque ( Tanque* tanque ){
+	return tanque->posicao_y;
 }
 
 Missil* get_missil_tanque(Tanque* tanque){

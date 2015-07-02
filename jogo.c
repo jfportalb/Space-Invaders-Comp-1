@@ -67,6 +67,8 @@ void inicializa_jogo (Jogo* jogo){
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
 	jogo->tanque = NULL;
+
+	al_set_window_title(jogo->display, "Space Invaders");
 }
 
 void processa_menu(Jogo* jogo, Menu* menu, ALLEGRO_EVENT ev){

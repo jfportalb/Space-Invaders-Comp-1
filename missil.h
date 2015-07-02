@@ -3,6 +3,8 @@
 
 #include <allegro5/allegro.h>
 
+#define VEL_MISSIL 6
+
 struct Missil{
 	int pos_x, pos_y;
 	ALLEGRO_BITMAP* imagem;

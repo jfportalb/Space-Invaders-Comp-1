@@ -14,6 +14,7 @@ struct wave {
     struct alien** squids;
     struct alien** jellyfishes[2];
     struct alien** crabs[2];
+    int aliens_mortos[5];
     int x, y, anima_contador, ritmo, velocidade;
     int linhas;
 };
@@ -24,5 +25,7 @@ void draw_wave(struct wave* obj);
 void processa_wave(struct wave* obj);
 
 bool colide_wave(struct wave* invasores, Missil* missil);
+
+int get_bottom_wave(wave* obj);
  
 #endif

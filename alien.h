@@ -1,7 +1,7 @@
 #ifndef ALIEN_H
 #define ALIEN_H
  
-#define ALIEN_SPEED 10
+#define ALIEN_SPEED 8
 #define ALIEN_SIZE 36
  
 #include <allegro5/allegro.h>
@@ -23,13 +23,7 @@ alien* create_alien(int x, int y, ALIEN_TYPE type);
 alien* destroy_alien(struct alien* obj);
  
 void explode_alien(struct alien* obj);
- 
-void move_alien_left(struct alien* obj);
- 
-void move_alien_right(struct alien* obj);
- 
-void move_alien_down(struct alien* obj);
- 
+
 void draw_alien(struct alien* obj);
  
 void anima_alien(struct alien* obj);

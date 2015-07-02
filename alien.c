@@ -34,8 +34,7 @@ alien* create_alien(int x, int y, ALIEN_TYPE type) {
  
     obj->x = x;
     obj->y = y;
-    obj->troca_sprite = 1;
-     
+    obj->troca_sprite = 1;     
     return obj;
 }
  
@@ -46,18 +45,7 @@ alien* destroy_alien(struct alien* obj) {
     free(obj);
     return NULL;
 }
-void move_alien_right(struct alien* obj) {
- 
-    obj->x+= ALIEN_SPEED;
-}
-void move_alien_left(struct alien* obj) {
- 
-    obj->x-= ALIEN_SPEED;
-}
-void move_alien_down(struct alien* obj) {
- 
-    obj->y+= ALIEN_SPEED;
-}
+
 void draw_alien(struct alien* obj) {
      
     if(obj->troca_sprite) {
@@ -82,9 +70,14 @@ void move_alien_baixo(struct alien* obj, int speed) {
     obj->y += speed;
 }
 
+void explode_alien(alien* obj){
+}
+
 bool acerta_alien(struct alien* obj, int x, int y){
-    if( x >= obj->x && x < obj->x + ALIEN_SIZE && y >= obj->y && y < obj->y + ALIEN_SIZE)
+    if( obj && (x >= obj->x) && (x <= obj->x + ALIEN_SIZE) && (y >= obj->y) && (y <= obj->y + ALIEN_SIZE)){
+        destroy_alien(obj);
         return true;
+    }
     else
         return false;
 }
