@@ -145,6 +145,13 @@ void atira_wave (struct wave* obj){
     obj->missil_atual = (obj->missil_atual+1) % MAX_MISSEIS;
 }
 
+Missil* get_missil_wave(wave* obj, int n_missil){
+    if (n_missil < MAX_MISSEIS)
+        return obj->missil[n_missil];
+    else
+        return NULL;
+}
+
 //Agrupa em uma única função toda a lógica de movimentação e animação da wave. Essa função é
 //chamada em processa_jogo() toda vez que um ALLEGRO_EVENT_TIMER é recebido
 void processa_wave(struct wave* obj) {
@@ -175,7 +182,7 @@ void processa_wave(struct wave* obj) {
 }
 
 
-bool colide_wave(wave* invasores, Missil* missil){
+int colide_wave(wave* invasores, Missil* missil){
 	int x = get_x_missil(missil);
 	int y = get_y_missil(missil);
 	x-= invasores->x;
@@ -189,7 +196,7 @@ bool colide_wave(wave* invasores, Missil* missil){
                     invasores->squids[coluna] = NULL;
                     invasores->aliens_mortos[0] ++;
                     if ( invasores->aliens_mortos[0] == invasores->n_aliens) invasores->linhas--;
-                    return true;
+                    return 30;
                 }
                 break;
             case 1:
@@ -197,7 +204,7 @@ bool colide_wave(wave* invasores, Missil* missil){
                     invasores->jellyfishes[0][coluna] = NULL;
                     invasores->aliens_mortos[1] ++;
                     if ( invasores->aliens_mortos[1] == invasores->n_aliens) invasores->linhas--;
-                    return true;
+                    return 20;
                 }
                 break;
             case 2:
@@ -205,7 +212,7 @@ bool colide_wave(wave* invasores, Missil* missil){
                     invasores->jellyfishes[1][coluna] = NULL;
                     invasores->aliens_mortos[2] ++;
                     if ( invasores->aliens_mortos[2] == invasores->n_aliens) invasores->linhas--;
-                    return true;
+                    return 20;
                 }
                 break;
             case 3:
@@ -213,7 +220,7 @@ bool colide_wave(wave* invasores, Missil* missil){
                     invasores->crabs[0][coluna] = NULL;
                     invasores->aliens_mortos[3] ++;
                     if ( invasores->aliens_mortos[3] == invasores->n_aliens) invasores->linhas--;
-                    return true;
+                    return 10;
                 }
                 break;
             case 4:
@@ -221,12 +228,12 @@ bool colide_wave(wave* invasores, Missil* missil){
                     invasores->crabs[1][coluna] = NULL;
                     invasores->aliens_mortos[4] ++;
                     if ( invasores->aliens_mortos[4] == invasores->n_aliens) invasores->linhas--;
-					return true;
+					return 10;
                 }
 				break;
 		}
 	}
-	return false;
+	return 0;
 }
 
 int get_bottom_wave(wave* obj){

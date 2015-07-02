@@ -28,8 +28,10 @@ void draw_wave(struct wave* obj);
  
 void processa_wave(struct wave* obj);
 
-bool colide_wave(struct wave* invasores, Missil* missil);
+int colide_wave(struct wave* invasores, Missil* missil);
 
 int get_bottom_wave(wave* obj);
+
+Missil* get_missil_wave(wave* obj, int n_missil);
  
 #endif

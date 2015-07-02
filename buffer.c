@@ -23,16 +23,21 @@ Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int la
 }
 
 void processa_colisao(Buffer* buffer){
-	Missil* missil = get_missil_tanque(buffer->tanque);
-	if (missil)
-		if( get_y_missil(missil) < 0)
+	Missil* missil_tanque = get_missil_tanque(buffer->tanque);
+	if (missil_tanque)
+		if( get_y_missil(missil_tanque) < 0)
 			destroi_missil_tanque(buffer->tanque);
 		else {
-		if(get_y_missil(missil) <= get_bottom_wave(buffer->invasores) && colide_wave(buffer->invasores, missil))
-			destroi_missil_tanque(buffer->tanque);
+		if(get_y_missil(missil_tanque) <= get_bottom_wave(buffer->invasores)){
+			int pts = colide_wave(buffer->invasores, missil_tanque);
+			if(pts){
+				*buffer->score += pts;
+				destroi_missil_tanque(buffer->tanque);
+			}
+		}
 		else
-			for (int i = 0; i < buffer->n_escudos && missil; i++)
-				if (colide_escudo(buffer->escudo[i], missil)){
+			for (int i = 0; i < buffer->n_escudos && missil_tanque; i++)
+				if (colide_escudo(buffer->escudo[i], missil_tanque)){
 					destroi_missil_tanque(buffer->tanque);
 					break;
 				}
