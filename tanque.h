@@ -2,6 +2,8 @@
 #define TANQUE_H
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include "missil.h"
 
 #define PASSO 5
@@ -10,6 +12,7 @@ struct Tanque{
 	int posicao_x, posicao_y;
 	int delta_x, altura;
 	ALLEGRO_BITMAP* imagem;
+	ALLEGRO_SAMPLE* shoot_sample = NULL;
 	Missil* missil;
 	float velocidade;
 };

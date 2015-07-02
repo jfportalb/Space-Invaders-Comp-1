@@ -16,6 +16,11 @@ Tanque* inicializa_tanque( int posicao_x, int posicao_y){
 		tanque = NULL;
 
 	tanque->altura = al_get_bitmap_height(tanque->imagem);
+	tanque->shoot_sample = al_load_sample("sons/shoot.wav");
+	if(!tanque->shoot_sample){
+		puts("Falha ao carregar sample \"shoot.wav\".");
+		exit(1);		
+	}
 
 	return tanque;
 }
@@ -45,8 +50,10 @@ void tanque_move_direita(Tanque* tanque){
 }
 
 void atira_tanque(Tanque* tanque){
-	if(!tanque->missil)
+	if(!tanque->missil){
+		al_play_sample(tanque->shoot_sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 		tanque->missil = cria_missil(tanque->posicao_x, tanque->posicao_y, 0, -VEL_MISSIL);
+	}
 }
 
 void destroi_missil_tanque(Tanque* tanque){

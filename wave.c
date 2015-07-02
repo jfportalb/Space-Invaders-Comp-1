@@ -130,17 +130,18 @@ void move_wave_baixo(struct wave* obj) {
 
 void atira_wave (struct wave* obj){
     int coluna = rand() % obj->n_aliens;
-    printf("%d\n", coluna);
     if (obj->crabs[1][coluna])
         obj->missil[obj->missil_atual] = atira_alien(obj->crabs[1][coluna], obj->missil[obj->missil_atual]);
     else if (obj->crabs[0][coluna])
         obj->missil[obj->missil_atual] = atira_alien(obj->crabs[0][coluna], obj->missil[obj->missil_atual]);
-    else if (obj->jellyfishes[1])
+    else if (obj->jellyfishes[1][coluna])
         obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[1][coluna], obj->missil[obj->missil_atual]);
     else if (obj->jellyfishes[0][coluna])
         obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[0][coluna], obj->missil[obj->missil_atual]);
     else if (obj->squids[coluna])
         obj->missil[obj->missil_atual] = atira_alien(obj->squids[coluna], obj->missil[obj->missil_atual]);
+    else
+        obj->missil_atual--;
     obj->missil_atual = (obj->missil_atual+1) % MAX_MISSEIS;
 }
 

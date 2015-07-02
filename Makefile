@@ -1,5 +1,5 @@
 all: jogo.o escudo.o alien.o wave.o missil.o tanque.o buffer.o menu.o botao.o nave.o space.c
-	g++ space.c jogo.o escudo.o alien.o wave.o missil.o tanque.o buffer.o menu.o botao.o nave.o -o space -lallegro -lallegro_dialog -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf
+	g++ space.c jogo.o escudo.o alien.o wave.o missil.o tanque.o buffer.o menu.o botao.o nave.o -o space -lallegro -lallegro_dialog -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_audio -lallegro_acodec
 alien.o: alien.c alien.h
 	g++ -c alien.c
 botao.o: botao.c botao.h

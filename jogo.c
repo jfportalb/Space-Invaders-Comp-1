@@ -4,11 +4,14 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 //Inicializações básicas do Allegro.
 void allegro_init(Jogo* jogo);
 void allegro_image_init(Jogo* jogo);
 void allegro_primitives_init(Jogo* jogo);
+void allegro_audio_init(Jogo* jogo);
 void allegro_font_init(Jogo* jogo);
 void allegro_mouse_init(Jogo* jogo);
 void allegro_keyboard_init(Jogo* jogo);
@@ -50,6 +53,7 @@ void inicializa_jogo (Jogo* jogo){
 	allegro_display_init(jogo, jogo->largura, jogo->altura);
 	allegro_image_init(jogo);
 	allegro_primitives_init(jogo);
+	allegro_audio_init(jogo);
 	allegro_font_init(jogo);
 	
 	allegro_mouse_init(jogo);
@@ -177,6 +181,22 @@ void allegro_image_init(Jogo* jogo){
 void allegro_primitives_init(Jogo* jogo){
 	if(!al_init_primitives_addon()){
 		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o addon de primitivos do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		exit(1);		
+	}
+}
+void allegro_audio_init(Jogo* jogo){
+	if(!al_install_audio()){
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o addon de áudios do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		exit(1);		
+	}
+
+	if(!al_init_acodec_addon()){
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o addon de acodec do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		exit(1);		
+	}
+
+	if(!al_reserve_samples(N_SAMPLES)){
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao alocar canais de áudio.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		exit(1);		
 	}
 }
