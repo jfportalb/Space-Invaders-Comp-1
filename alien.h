@@ -5,7 +5,8 @@
 #define ALIEN_SIZE 36
  
 #include <allegro5/allegro.h>
- 
+#include "missil.h"
+
 enum ALIEN_TYPE {
     SQUID, JELLYFISH, CRAB
 };
@@ -33,6 +34,8 @@ void move_alien_horizontal(struct alien* obj, int speed);
 void move_alien_baixo(struct alien* obj, int speed);
 
 bool acerta_alien(struct alien* obj, int x, int y);
+
+Missil* atira_alien (struct alien* obj, Missil* missil);
  
 //Troca o sprite de um dado alien pelo sprite de explosão por um dado tempo antes de chamar destroy_alien()
 void explode_alien(struct alien* obj);

@@ -19,7 +19,10 @@ void move_missil(Missil* missil){
 }
 
 void desenha_missil(Missil* missil){
-	al_draw_bitmap(missil->imagem, missil->pos_x - missil->delta_x, missil->pos_y, 0);
+	if (missil->velocidade[1] < 0)
+		al_draw_bitmap(missil->imagem, missil->pos_x - missil->delta_x, missil->pos_y, 0);
+	else
+		al_draw_bitmap(missil->imagem, missil->pos_x - missil->delta_x, missil->pos_y, ALLEGRO_FLIP_VERTICAL);
 }
 
 Missil* destroi_missil(Missil* missil){

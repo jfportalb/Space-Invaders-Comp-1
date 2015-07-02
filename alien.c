@@ -70,6 +70,11 @@ void move_alien_baixo(struct alien* obj, int speed) {
     obj->y += speed;
 }
 
+Missil* atira_alien(struct alien* obj, Missil* missil){
+    missil = cria_missil(obj->x + ALIEN_SIZE/2, obj->y + ALIEN_SIZE , 0, VEL_MISSIL);
+    return missil;
+}
+
 void explode_alien(alien* obj){
 }
 

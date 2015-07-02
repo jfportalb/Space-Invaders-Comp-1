@@ -47,6 +47,10 @@ wave* create_wave(int y_inicial, int n_aliens) {
     for (int i=0; i<5; i++){
         obj->aliens_mortos[i]=0;
     }
+    for (int i=0; i<MAX_MISSEIS; i++){
+        obj->missil[i]=NULL;
+    }
+    int missil_atual = 0;
     return obj;
 }
 void draw_wave(struct wave* obj) {
@@ -122,8 +126,19 @@ void move_wave_baixo(struct wave* obj) {
 }
 
 void atira_wave (struct wave* obj){
-    int shooter = rand() % obj->n_aliens;
-    
+    puts ("AH");
+    int coluna = rand() % obj->n_aliens;
+    if (obj->crabs[1][coluna])
+        obj->missil[obj->missil_atual] = NULL;//atira_alien(obj->crabs[1][coluna], obj->missil[obj->missil_atual]);
+    // else if (obj->crabs[0][coluna])
+    //     obj->missil[obj->missil_atual] = atira_alien(obj->crabs[0][coluna], obj->missil[obj->missil_atual]);
+    // else if (obj->jellyfishes[1])
+    //     obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[1][coluna], obj->missil[obj->missil_atual]);
+    // else if (obj->jellyfishes[0][coluna])
+    //     obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[0][coluna], obj->missil[obj->missil_atual]);
+    // else if (obj->squids[coluna])
+    //     obj->missil[obj->missil_atual] = atira_alien(obj->squids[coluna], obj->missil[obj->missil_atual]);
+    obj->missil_atual = (obj->missil_atual+1) % MAX_MISSEIS;
 }
 
 //Agrupa em uma única função toda a lógica de movimentação e animação da wave. Essa função é
@@ -131,10 +146,15 @@ void atira_wave (struct wave* obj){
 void processa_wave(struct wave* obj) {
     obj->anima_contador++;
     static bool move_baixo = false;
+
+    for(int i=0; i<MAX_MISSEIS; i++)
+        if(obj->missil[i]) processa_missil(obj->missil[i]);
+
     if(!(obj->anima_contador%obj->ritmo)){
              
         obj->anima_contador = 0;
         anima_wave(obj);
+        atira_wave(obj);
          
         if(move_baixo) {
             move_baixo = false;
@@ -157,7 +177,7 @@ bool colide_wave(wave* invasores, Missil* missil){
 	x-= invasores->x;
 	y-= invasores->y;
 	if( x >= 0 && y >= 0 && x <  invasores->wave_width && y < ALIEN_SIZE * invasores->linhas + ALIEN_SPACING * (invasores->linhas - 1)){
-		int coluna = x/(ALIEN_SIZE + ALIEN_SPACING);
+        int coluna = x/(ALIEN_SIZE + ALIEN_SPACING);
 		int linha = (y + ALIEN_SPACING)/(ALIEN_SIZE + ALIEN_SPACING);
         switch (linha){
             case 0:
@@ -206,5 +226,5 @@ bool colide_wave(wave* invasores, Missil* missil){
 }
 
 int get_bottom_wave(wave* obj){
-    return obj->linhas * ALIEN_SIZE + (obj->linhas - 1) * ALIEN_SPACING;
+    return obj->y +  obj->linhas * ALIEN_SIZE + (obj->linhas - 1) * ALIEN_SPACING;
 }

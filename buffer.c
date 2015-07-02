@@ -26,7 +26,8 @@ void processa_colisao(Buffer* buffer){
 	if (missil)
 		if( get_y_missil(missil) < 0)
 			destroi_missil_tanque(buffer->tanque);
-		else if(get_y_missil(missil) > get_bottom_wave(buffer->invasores) && colide_wave(buffer->invasores, missil))
+		else {
+		if(get_y_missil(missil) <= get_bottom_wave(buffer->invasores) && colide_wave(buffer->invasores, missil))
 			destroi_missil_tanque(buffer->tanque);
 		else
 			for (int i = 0; i < buffer->n_escudos && missil; i++)
@@ -34,6 +35,7 @@ void processa_colisao(Buffer* buffer){
 					destroi_missil_tanque(buffer->tanque);
 					break;
 				}
+		}
 }
 //Te q escrever algo aqui.
 void game_over(){
@@ -45,7 +47,7 @@ void processa_buffer(Buffer* buffer){
 	processa_tanque(buffer->tanque);
 	processa_colisao(buffer);
 
-	if(get_bottom_wave(buffer->invasores) <= get_top_tanque(buffer->tanque))
+	if(get_bottom_wave(buffer->invasores) >= get_top_tanque(buffer->tanque))
 		game_over();
 }
 

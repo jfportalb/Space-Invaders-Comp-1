@@ -3,7 +3,8 @@
  
 #include "alien.h"
 #include "wave.h"
-#include "missil.h"
+
+#define MAX_MISSEIS 10
 
 #define ALIEN_SPACING 10
  
@@ -17,6 +18,9 @@ struct wave {
     int aliens_mortos[5];
     int x, y, anima_contador, ritmo, velocidade;
     int linhas;
+
+    Missil* missil[MAX_MISSEIS];
+    int missil_atual;
 };
 wave* create_wave(int y_inicial, int n_aliens);
  
