@@ -140,8 +140,10 @@ void atira_wave (struct wave* obj){
         obj->missil[obj->missil_atual] = atira_alien(obj->jellyfishes[0][coluna], obj->missil[obj->missil_atual]);
     else if (obj->squids[coluna])
         obj->missil[obj->missil_atual] = atira_alien(obj->squids[coluna], obj->missil[obj->missil_atual]);
-    else
+    else{
+        atira_wave(obj);
         obj->missil_atual--;
+    }
     obj->missil_atual = (obj->missil_atual+1) % MAX_MISSEIS;
 }
 
