@@ -66,7 +66,6 @@ void desenha_menu(Menu * menu, int largura, int altura) {
 	al_set_target_backbuffer(al_get_current_display());
 	al_draw_scaled_bitmap(menu->buffer, 0, 0, menu->largura, menu->altura , 0, 0, largura, altura, 0);	
 
-	al_flip_display();
 }
 
 void reinicia_menu(Menu* menu){
