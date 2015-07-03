@@ -22,6 +22,7 @@ struct Menu {
 	Botao** botoes;
 	int numero_botoes;
 	int botao_selecionado;
+	int botoes_y_offset;
 	int *y_botoes, x_botoes;
 };
 
@@ -29,7 +30,7 @@ Menu* inicializa_menu( ALLEGRO_FONT* fonte, int largura_jogo, int altura_jogo, i
 
 void cria_botao(Menu* menu, int pos_botao, const char texto[LETRAS_MAX_BOTAO], Funcao retorno, void* parametro_retorno);
 
-void desenha_menu(Menu* menu, int largura, int altura);
+void desenha_menu(Menu* menu, int largura, int altura, const char* texto);
 
 void reinicia_menu(Menu* menu);
 

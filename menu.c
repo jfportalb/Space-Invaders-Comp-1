@@ -27,17 +27,17 @@ Menu * inicializa_menu(ALLEGRO_FONT * fonte, int largura_jogo, int altura_jogo, 
 	menu->fonte = fonte;
 	menu->x_botoes = largura_jogo / 2;
 	
-	int botoes_y_offset = al_get_font_line_height(fonte) + altura_jogo / 24;
+	menu->botoes_y_offset = al_get_font_line_height(fonte) + altura_jogo / 24;
 	menu->y_botoes = (int * ) malloc(sizeof(int) * n_botoes);
 	
 	if (titulo) {
 		inicializa_titulo(menu, largura_jogo, titulo);
 		for (int i = 0; i < menu->numero_botoes; i++)
-			menu->y_botoes[i] = menu->titulo_pos_y + al_get_bitmap_height(menu->titulo) +  BORDA + botoes_y_offset * i;
+			menu->y_botoes[i] = menu->titulo_pos_y + al_get_bitmap_height(menu->titulo) +  BORDA + menu->botoes_y_offset * i;
 	}
 	else {
 		for (int i = 0; i < menu->numero_botoes; i++)
-			menu->y_botoes[i] = BORDA + botoes_y_offset * i;
+			menu->y_botoes[i] = BORDA + menu->botoes_y_offset * i;
 		menu->titulo = NULL;
 	}
 
@@ -49,7 +49,7 @@ void cria_botao(Menu * menu, int pos_botao,
 	menu->botoes[pos_botao] = inicializa_botao(menu->fonte, menu->x_botoes, menu->y_botoes[pos_botao], texto, retorno, parametro_retorno);
 }
 
-void desenha_menu(Menu * menu, int largura, int altura) {
+void desenha_menu(Menu * menu, int largura, int altura, const char* texto) {
 	al_set_target_bitmap(menu->buffer);
 
 	al_clear_to_color(al_map_rgb(250, 250, 250));
@@ -61,6 +61,8 @@ void desenha_menu(Menu * menu, int largura, int altura) {
 			desenha_botao(menu->botoes[i], BOTAO_SELECIONADO);
 		else
 			desenha_botao(menu->botoes[i], BOTAO_NORMAL);
+
+	if(texto) al_draw_text(menu->fonte, al_map_rgb(0,0,0), 20,  BORDA + menu->botoes_y_offset*menu->numero_botoes, 0, texto);
 	
 
 	al_set_target_backbuffer(al_get_current_display());

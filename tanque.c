@@ -17,6 +17,7 @@ Tanque* inicializa_tanque( int posicao_x, int posicao_y, SOUND_MANAGER* sound_mn
 
 	tanque->altura = al_get_bitmap_height(tanque->imagem);
 
+	tanque->missil = NULL;
 	reinicia_tanque(tanque);
 
 	return tanque;
@@ -25,7 +26,6 @@ Tanque* inicializa_tanque( int posicao_x, int posicao_y, SOUND_MANAGER* sound_mn
 void reinicia_tanque(Tanque* tanque){
 	tanque->posicao_x = tanque->posicao_x_inicial;
 	tanque->posicao_y = tanque->posicao_y_inicial;
-	tanque->missil = NULL;
 }
 
 void desenha_tanque(Tanque* tanque){

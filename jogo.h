@@ -17,7 +17,7 @@
 #define N_KEYS 3
 #define N_ESCUDOS 4
 #define N_ALIEN 11
-#define VIDAS_INICIAIS 300
+#define VIDAS_INICIAIS 3
 
 //Medidas do display para que o jogo fique proporcional.
 #define LARGURA_INICIAL 640

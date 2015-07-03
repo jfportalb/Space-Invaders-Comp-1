@@ -82,8 +82,8 @@ void explode_alien(alien* obj){
 }
 
 bool acerta_alien(struct alien* obj, int x, int y){
-    play_sound(obj->sound_mng, ALIEN_EXPLOSION);
     if( obj && (x >= obj->x) && (x <= obj->x + ALIEN_SIZE) && (y >= obj->y) && (y <= obj->y + ALIEN_SIZE)){
+        play_sound(obj->sound_mng, ALIEN_EXPLOSION);
         destroy_alien(obj);
         return true;
     }

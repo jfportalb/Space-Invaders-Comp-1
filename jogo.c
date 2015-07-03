@@ -132,20 +132,21 @@ void desenha_jogo(Jogo* jogo){
 }
 
 void desenha_game_over(Jogo* jogo){
-	desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura);
+	// desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura);
 	char strGameOver[100];
 	sprintf(strGameOver, "Sua pontuacao foi: %d", jogo->score);
-	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 200, 0, strGameOver);
+	// al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 200, 0, strGameOver);
+	desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura, strGameOver);
 
 	al_flip_display();
 }
 
 void desenha_vitoria(Jogo* jogo){
-	desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura);
 	char strVitoria[100];
-	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 200, 0, "Parabens, voce ganhou!!!");
-	sprintf(strVitoria, "Sua pontuacao foi: %d", jogo->score);
-	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 230, 0, strVitoria);
+	// al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 200, 0, "");
+	sprintf(strVitoria, "Parabens, voce ganhou!!! Sua pontuacao foi: %d", jogo->score);
+	// al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 230, 0, strVitoria);
+	desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura, strVitoria);
 
 	al_flip_display();
 }
@@ -160,7 +161,7 @@ void main_loop_jogo(Jogo* jogo){
 				processa_menu(jogo, jogo->menu[MENU_PRINCIPAL], ev);
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
-					desenha_menu(jogo->menu[MENU_PRINCIPAL], jogo->largura, jogo->altura);
+					desenha_menu(jogo->menu[MENU_PRINCIPAL], jogo->largura, jogo->altura, 0);
 					al_flip_display();
 				}
 				break;
@@ -175,7 +176,7 @@ void main_loop_jogo(Jogo* jogo){
 				processa_menu(jogo, jogo->menu[MENU_DE_PAUSA], ev);
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
-					desenha_menu(jogo->menu[MENU_DE_PAUSA], jogo->largura, jogo->altura);
+					desenha_menu(jogo->menu[MENU_DE_PAUSA], jogo->largura, jogo->altura, 0);
 					al_flip_display();
 				}
 				break;
@@ -183,7 +184,7 @@ void main_loop_jogo(Jogo* jogo){
 				processa_menu(jogo, jogo->menu[MENU_DE_OPCOES], ev);
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
-					desenha_menu(jogo->menu[MENU_DE_OPCOES], jogo->largura, jogo->altura);
+					desenha_menu(jogo->menu[MENU_DE_OPCOES], jogo->largura, jogo->altura, 0);
 					al_flip_display();
 				}
 				break;
