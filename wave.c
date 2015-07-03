@@ -2,13 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "wave.h"
+#include "sound.h"
+
+#define COUNT_SOUND 4
  
 //ADICIONAR NAVE-MÃE!!!
 //A função posiciona a wave no meio de tela de largura 640. Ainda é preciso torná-la agóstica a resolução
 //O valor do campo velocidade precisa ser um divisor de (largura do display - largura wave)/2 para que colida com o limite direito da tela
 //Do contrário, a wave irá atravesá-los antes de voltar.
 //Uma outra possibilidade é tornar o limite o 
-wave* create_wave(int y_inicial, int n_aliens) {
+wave* create_wave(int y_inicial, int n_aliens, SOUND_MANAGER* sound_mng) {
     srand(time(NULL));
  
     struct wave* obj = (struct wave*) malloc(sizeof(struct wave));
@@ -25,15 +28,18 @@ wave* create_wave(int y_inicial, int n_aliens) {
     int j;
     obj->linhas = 5;
 
+    obj->sound_mng = sound_mng;
+    obj->sound_count = 0;
+
     obj->squids = (alien**) malloc (sizeof(alien*)*obj->n_aliens);
     for(i = 0; i < obj->n_aliens; i++) {
-        obj->squids[i] = create_alien(obj->x + i*(ALIEN_SIZE + ALIEN_SPACING), obj->y, SQUID);
+        obj->squids[i] = create_alien(obj->x + i*(ALIEN_SIZE + ALIEN_SPACING), obj->y, SQUID, obj->sound_mng);
     }
     //Create 2 jellyfish rows
     for(i = 0; i < 2; i++) {
     	obj->jellyfishes[i] = (alien**) malloc (sizeof(alien*)*obj->n_aliens);
         for(j = 0; j < obj->n_aliens; j++) {
-            obj->jellyfishes[i][j] = create_alien(obj->x + j*(ALIEN_SIZE + ALIEN_SPACING), obj->y + (i + 1) * (ALIEN_SIZE), JELLYFISH);
+            obj->jellyfishes[i][j] = create_alien(obj->x + j*(ALIEN_SIZE + ALIEN_SPACING), obj->y + (i + 1) * (ALIEN_SIZE), JELLYFISH, obj->sound_mng);
         }
     }
     //Create 2 crab rows
@@ -41,7 +47,7 @@ wave* create_wave(int y_inicial, int n_aliens) {
  
     	obj->crabs[i] = (alien**) malloc (sizeof(alien*)*obj->n_aliens);
         for(j = 0; j < obj->n_aliens; j++) {
-            obj->crabs[i][j] = create_alien(obj->x + j*(ALIEN_SIZE + ALIEN_SPACING), obj->y + (i + 3) * (ALIEN_SIZE), CRAB);
+            obj->crabs[i][j] = create_alien(obj->x + j*(ALIEN_SIZE + ALIEN_SPACING), obj->y + (i + 3) * (ALIEN_SIZE), CRAB, obj->sound_mng);
         }
     }
 
@@ -91,6 +97,16 @@ void anima_wave(struct wave* obj) {
             anima_alien(obj->crabs[1][i]);
     }
 }
+
+void play_alien_move_sound(struct wave* obj){
+    SAMPLES current_sound = (SAMPLES) (ALIEN_MOVE_1 + obj->sound_count - 1);
+    play_sound(obj->sound_mng, current_sound);
+    if(obj->sound_count < 4)
+        obj->sound_count++;
+    else if (obj->sound_count == 4)
+        obj->sound_count = 1;
+}
+
 //Chama a função de movimentação da wave apropriada com base na direção de velocidade da wave e sua posição na tela
 void move_wave_horizontal(struct wave* obj) {
     obj->x+=obj->velocidade;
@@ -108,6 +124,7 @@ void move_wave_horizontal(struct wave* obj) {
         if(obj->crabs[1][i])
             move_alien_horizontal(obj->crabs[1][i], obj->velocidade);
     }
+    play_alien_move_sound(obj);
 }
 void move_wave_baixo(struct wave* obj) {
  
@@ -127,6 +144,7 @@ void move_wave_baixo(struct wave* obj) {
         if(obj->crabs[1][i])
             move_alien_baixo(obj->crabs[1][i], velocidade);
     }
+    play_alien_move_sound(obj);
 }
 
 void atira_wave (struct wave* obj){

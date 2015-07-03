@@ -1,8 +1,13 @@
 #include "buffer.h"
 #include <stdio.h>
 
-Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, nave* ovni, int* vidas, int* score, bool* game_on){
+Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, 
+						   Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, nave* ovni, 
+						   int* vidas, int* score, bool* game_on, SOUND_MANAGER* sound_mng){
+
 	Buffer* buffer = (Buffer*) malloc (sizeof(Buffer));
+
+	buffer->sound_mng = sound_mng;
 
 	buffer->vidas = vidas;
 	buffer->score = score;
@@ -24,6 +29,7 @@ Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int la
 }
 
 void tanque_morreu(Buffer* buffer){
+	play_sound(buffer->sound_mng, TANQUE_EXPLOSION);
 	*(buffer->vidas) -= 1;
 	reinicia_tanque(buffer->tanque);
 }
@@ -40,6 +46,7 @@ void processa_colisao(Buffer* buffer){
 				destroi_missil_tanque(buffer->tanque);
 			}
 			else if(colide_nave(buffer->ovni, missil_tanque)){
+				play_sound(buffer->sound_mng, UFO_HIGHPITCH);
 				*buffer->score += PONTOS_NAVE_MAE;
 				buffer->ovni = NULL; 
 				destroi_missil_tanque(buffer->tanque);

@@ -12,6 +12,8 @@ void allegro_init(Jogo* jogo);
 void allegro_image_init(Jogo* jogo);
 void allegro_primitives_init(Jogo* jogo);
 void allegro_audio_init(Jogo* jogo);
+void allegro_acodec_init(Jogo* jogo);
+void allegro_reserve_samples(Jogo* jogo);
 void allegro_font_init(Jogo* jogo);
 void allegro_mouse_init(Jogo* jogo);
 void allegro_keyboard_init(Jogo* jogo);
@@ -28,6 +30,7 @@ void menu_end_game_init(Jogo* jogo);
 //Inicializações da partida:
 void cria_escudos(Jogo* jogo);
 void cria_tanque(Jogo* jogo);
+void cria_sound_manager(Jogo *jogo);
 void finaliza_jogo(Jogo* jogo);
 
 //Botões dos menus:
@@ -55,6 +58,9 @@ void inicializa_jogo (Jogo* jogo){
 	allegro_image_init(jogo);
 	allegro_primitives_init(jogo);
 	allegro_audio_init(jogo);
+	allegro_acodec_init(jogo);
+	allegro_reserve_samples(jogo);
+	allegro_audio_init(jogo);
 	allegro_font_init(jogo);
 	
 	allegro_mouse_init(jogo);
@@ -69,6 +75,8 @@ void inicializa_jogo (Jogo* jogo){
 	menu_pausa_init( jogo);
 	menu_opcoes_init( jogo);
 	menu_end_game_init( jogo);
+
+	cria_sound_manager(jogo);
 	
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
@@ -202,6 +210,7 @@ void destroi_jogo (Jogo* jogo){
 	finaliza_menu( jogo->menu[0]);
 	finaliza_menu( jogo->menu[1]);
 	finaliza_menu( jogo->menu[2]);
+	if (jogo->sound_mng) jogo->sound_mng = finaliza_sound_manager(jogo->sound_mng);
 	al_destroy_event_queue(jogo->event_queue);
 	al_destroy_timer(jogo->timer);
 	al_destroy_display(jogo->display);
@@ -226,19 +235,21 @@ void allegro_primitives_init(Jogo* jogo){
 		exit(1);		
 	}
 }
-void allegro_audio_init(Jogo* jogo){
+void allegro_audio_init(Jogo *jogo){
 	if(!al_install_audio()){
-		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o addon de áudios do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o addon de audio do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		exit(1);		
 	}
-
+}
+void allegro_acodec_init(Jogo* jogo){
 	if(!al_init_acodec_addon()){
-		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o addon de acodec do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar os codecs de audio do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		exit(1);		
 	}
-
+}
+void allegro_reserve_samples(Jogo *jogo){
 	if(!al_reserve_samples(N_SAMPLES)){
-		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao alocar canais de áudio.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao reservar as samples de audio do Allegro.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		exit(1);		
 	}
 }
@@ -293,7 +304,6 @@ void allegro_event_queue_init(Jogo* jogo){
 	al_register_event_source(jogo->event_queue, al_get_timer_event_source(jogo->timer));
 	al_register_event_source(jogo->event_queue, al_get_display_event_source(jogo->display));
 }
-
 void menu_inicial_init(Jogo* jogo){
 	jogo->menu[MENU_PRINCIPAL] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, "imagens/title.png");
 	cria_botao(jogo->menu[MENU_PRINCIPAL], 0, "Novo jogo", game_start, jogo);
@@ -333,9 +343,17 @@ void cria_escudos(Jogo* jogo){
 	}
 }
 void cria_tanque(Jogo* jogo){
-	jogo->tanque = inicializa_tanque(LARGURA_INICIAL/2, ALTURA_INICIAL/8 * 7);
+	jogo->tanque = inicializa_tanque(LARGURA_INICIAL/2, ALTURA_INICIAL/8 * 7, jogo->sound_mng);
 	if(!jogo->tanque){
 		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar imagem do tanque.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
+		destroi_jogo(jogo);
+		exit(1);
+	}
+}
+void cria_sound_manager(Jogo* jogo){
+	jogo->sound_mng = inicializa_sound_manager();
+	if(!jogo->sound_mng){
+		al_show_native_message_box(jogo->display, "Erro", "Erro", "Falha ao iniciar o sound manager.", "OK", ALLEGRO_MESSAGEBOX_ERROR);
 		destroi_jogo(jogo);
 		exit(1);
 	}
@@ -372,11 +390,11 @@ void game_start(void* ptr){
 		jogo->key[i] = false;
 	cria_escudos( jogo);
 	cria_tanque( jogo);
-	jogo->invasores = create_wave(70, N_ALIEN);
+	jogo->invasores = create_wave(70, N_ALIEN, jogo->sound_mng);
 	jogo->ovni = cria_nave(50, 5, 10, 2);
 	jogo->game_on = true;
 	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, N_ESCUDOS, 
-									 jogo->tanque, jogo->invasores, jogo->ovni,&jogo->vidas, &jogo->score, &jogo->game_on);
+									 jogo->tanque, jogo->invasores, jogo->ovni,&jogo->vidas, &jogo->score, &jogo->game_on, jogo->sound_mng);
 	jogo->estado_do_jogo = PLAY;	
 }
 void ir_para_menu_inicial(void* ptr){

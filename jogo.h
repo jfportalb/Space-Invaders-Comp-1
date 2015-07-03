@@ -11,12 +11,12 @@
 #include "buffer.h"
 #include "menu.h"
 #include "nave.h"
+#include "sound.h"
 
 #define FPS 60
 #define N_KEYS 3
 #define N_ESCUDOS 4
 #define N_ALIEN 1
-#define N_SAMPLES 5
 #define VIDAS_INICIAIS 300
 
 //Medidas do display para que o jogo fique proporcional.
@@ -56,6 +56,7 @@ struct Jogo{
 	Buffer* buffer;
 	Escudo* escudo[N_ESCUDOS];
 	Tanque* tanque;
+	SOUND_MANAGER* sound_mng;
 	wave* invasores;
 	nave* ovni;
 };

@@ -1,7 +1,7 @@
-/* Versão 0.2 do jogo Space Invaders
+/* O jogo Space Invaders
  *
- * Autor: João Felipe Porto de Albuquerque
- * Data: 25/06/2015
+ * Autores: Felipe de Barros, João Felipe Porto e Rafael Katopodis
+ * Data de entrega: 03/07/2015
  */
 
 #include "jogo.h"

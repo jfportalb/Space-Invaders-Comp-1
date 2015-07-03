@@ -3,7 +3,7 @@
 #include <allegro5/allegro_image.h>
  
 //Type is an integer between 0 and 2. Check the enum ALIEN_TYPE in alien.h
-alien* create_alien(int x, int y, ALIEN_TYPE type) {
+alien* create_alien(int x, int y, ALIEN_TYPE type, SOUND_MANAGER* sound_mng) {
  
     struct alien* obj = (alien*) malloc(sizeof(alien));
     obj->alien_type = type;
@@ -34,7 +34,10 @@ alien* create_alien(int x, int y, ALIEN_TYPE type) {
  
     obj->x = x;
     obj->y = y;
-    obj->troca_sprite = 1;     
+    obj->troca_sprite = 1; 
+
+    obj->sound_mng = sound_mng;
+
     return obj;
 }
  
@@ -79,6 +82,7 @@ void explode_alien(alien* obj){
 }
 
 bool acerta_alien(struct alien* obj, int x, int y){
+    play_sound(obj->sound_mng, ALIEN_EXPLOSION);
     if( obj && (x >= obj->x) && (x <= obj->x + ALIEN_SIZE) && (y >= obj->y) && (y <= obj->y + ALIEN_SIZE)){
         destroy_alien(obj);
         return true;

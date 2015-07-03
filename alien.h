@@ -7,6 +7,7 @@
  
 #include <allegro5/allegro.h>
 #include "missil.h"
+#include "sound.h"
 
 enum ALIEN_TYPE {
     SQUID, JELLYFISH, CRAB
@@ -15,11 +16,12 @@ struct alien{
     int troca_sprite;
     int x, y;
     ALIEN_TYPE alien_type;
+    SOUND_MANAGER* sound_mng;
     ALLEGRO_BITMAP* imagem_1;
     ALLEGRO_BITMAP* imagem_2;
 };
  
-alien* create_alien(int x, int y, ALIEN_TYPE type);
+alien* create_alien(int x, int y, ALIEN_TYPE type, SOUND_MANAGER* sound_mng);
  
 //Tem esse tipo de retorno para que retorne NULL a um dado ponteiro, o que é usado como teste condicional em funções de wave
 alien* destroy_alien(struct alien* obj);
