@@ -23,7 +23,7 @@ void allegro_event_queue_init(Jogo* jogo);
 void menu_inicial_init(Jogo* jogo);
 void menu_pausa_init(Jogo* jogo);
 void menu_opcoes_init(Jogo* jogo);
-void menu_game_over_init(Jogo* jogo);
+void menu_end_game_init(Jogo* jogo);
 
 //Inicializações da partida:
 void cria_escudos(Jogo* jogo);
@@ -68,7 +68,7 @@ void inicializa_jogo (Jogo* jogo){
 	menu_inicial_init( jogo);
 	menu_pausa_init( jogo);
 	menu_opcoes_init( jogo);
-	menu_game_over_init( jogo);
+	menu_end_game_init( jogo);
 	
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
@@ -112,7 +112,10 @@ void processa_jogo(Jogo* jogo, ALLEGRO_EVENT ev){
 	else if(ev.type == ALLEGRO_EVENT_KEY_UP)
 		get_keyboard_up ( jogo, ev );
 	if (!jogo->game_on)
-		jogo->estado_do_jogo = GAME_OVER;
+		if (jogo->vidas < 0)
+			jogo->estado_do_jogo = GAME_OVER;
+		else
+			jogo->estado_do_jogo = VITORIA;
 }
 
 void desenha_jogo(Jogo* jogo){
@@ -120,10 +123,20 @@ void desenha_jogo(Jogo* jogo){
 }
 
 void desenha_game_over(Jogo* jogo){
-	desenha_menu(jogo->menu[MENU_GAME_OVER], jogo->largura, jogo->altura);
+	desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura);
 	char strGameOver[100];
 	sprintf(strGameOver, "Sua pontuacao foi: %d", jogo->score);
 	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 200, 0, strGameOver);
+
+	al_flip_display();
+}
+
+void desenha_vitoria(Jogo* jogo){
+	desenha_menu(jogo->menu[MENU_END_GAME], jogo->largura, jogo->altura);
+	char strVitoria[100];
+	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 200, 0, "Parabens, voce ganhou!!!");
+	sprintf(strVitoria, "Sua pontuacao foi: %d", jogo->score);
+	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 230, 0, strVitoria);
 
 	al_flip_display();
 }
@@ -166,10 +179,17 @@ void main_loop_jogo(Jogo* jogo){
 				}
 				break;
 			case GAME_OVER:
-				processa_menu(jogo,jogo->menu[MENU_GAME_OVER], ev);
+				processa_menu(jogo,jogo->menu[MENU_END_GAME], ev);
 				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
 					jogo->redraw = false;
 					desenha_game_over(jogo);
+				}
+				break;
+			case VITORIA:
+				processa_menu(jogo, jogo->menu[MENU_END_GAME], ev);
+				if(jogo->redraw && al_is_event_queue_empty( jogo->event_queue)){
+					jogo->redraw = false;
+					desenha_vitoria(jogo);
 				}
 				break;
 		}
@@ -291,11 +311,11 @@ void menu_opcoes_init(Jogo* jogo){
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 1, "Dimunui resolucao", diminui_tela, jogo); 
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 2, "Menu principal", ir_para_menu_inicial, jogo); 
 }
-void menu_game_over_init(Jogo* jogo){
-	jogo->menu[MENU_GAME_OVER] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, 0);
-	cria_botao(jogo->menu[MENU_GAME_OVER], 0, "Novo jogo", game_start, jogo);
-	cria_botao(jogo->menu[MENU_GAME_OVER], 1, "Menu principal", ir_para_menu_inicial, jogo); 
-	cria_botao(jogo->menu[MENU_GAME_OVER], 2, "Sair", sair_jogo, jogo);
+void menu_end_game_init(Jogo* jogo){
+	jogo->menu[MENU_END_GAME] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, 0);
+	cria_botao(jogo->menu[MENU_END_GAME], 0, "Novo jogo", game_start, jogo);
+	cria_botao(jogo->menu[MENU_END_GAME], 1, "Menu principal", ir_para_menu_inicial, jogo); 
+	cria_botao(jogo->menu[MENU_END_GAME], 2, "Sair", sair_jogo, jogo);
 }
 
 //Funções usadas na inicialização da partida:
@@ -345,7 +365,7 @@ void diminui_tela(void* ptr){
 void game_start(void* ptr){
 	Jogo* jogo = (Jogo*) ptr;
 	finaliza_jogo(jogo);
-	jogo-> vidas = 2;
+	jogo-> vidas = VIDAS_INICIAIS;
 	jogo->score = 0;
 	cria_escudos( jogo);
 	cria_tanque( jogo);

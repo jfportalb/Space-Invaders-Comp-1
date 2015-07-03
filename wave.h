@@ -35,5 +35,7 @@ int get_bottom_wave(wave* obj);
 Missil* get_missil_wave(wave* obj, int n_missil);
 
 void destroi_missil_wave(wave* obj, int n_missil);
+
+int get_linhas_wave(wave* obj);
  
 #endif

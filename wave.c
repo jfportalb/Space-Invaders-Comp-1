@@ -14,7 +14,7 @@ wave* create_wave(int y_inicial, int n_aliens) {
     obj->x = 72; 
     obj->y = y_inicial;
     obj->anima_contador = 0;
-    obj->ritmo = 20;
+    obj->ritmo = 40;
     obj->velocidade = ALIEN_SPEED;
 
     obj->n_aliens = n_aliens;
@@ -199,7 +199,7 @@ int colide_wave(wave* invasores, Missil* missil){
                 if ( acerta_alien (invasores->squids[coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->squids[coluna] = NULL;
                     invasores->aliens_mortos[0] ++;
-                    if ( invasores->aliens_mortos[0] == invasores->n_aliens) invasores->linhas--;
+                    // if ( invasores->aliens_mortos[0] == invasores->n_aliens) invasores->linhas--;
                     return 30;
                 }
                 break;
@@ -207,7 +207,7 @@ int colide_wave(wave* invasores, Missil* missil){
                 if ( acerta_alien (invasores->jellyfishes[0][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->jellyfishes[0][coluna] = NULL;
                     invasores->aliens_mortos[1] ++;
-                    if ( invasores->aliens_mortos[1] == invasores->n_aliens) invasores->linhas--;
+                    // if ( invasores->aliens_mortos[1] == invasores->n_aliens) invasores->linhas--;
                     return 20;
                 }
                 break;
@@ -215,7 +215,7 @@ int colide_wave(wave* invasores, Missil* missil){
                 if ( acerta_alien (invasores->jellyfishes[1][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->jellyfishes[1][coluna] = NULL;
                     invasores->aliens_mortos[2] ++;
-                    if ( invasores->aliens_mortos[2] == invasores->n_aliens) invasores->linhas--;
+                    // if ( invasores->aliens_mortos[2] == invasores->n_aliens) invasores->linhas--;
                     return 20;
                 }
                 break;
@@ -223,7 +223,7 @@ int colide_wave(wave* invasores, Missil* missil){
                 if ( acerta_alien (invasores->crabs[0][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->crabs[0][coluna] = NULL;
                     invasores->aliens_mortos[3] ++;
-                    if ( invasores->aliens_mortos[3] == invasores->n_aliens) invasores->linhas--;
+                    // if ( invasores->aliens_mortos[3] == invasores->n_aliens) invasores->linhas--;
                     return 10;
                 }
                 break;
@@ -231,13 +231,19 @@ int colide_wave(wave* invasores, Missil* missil){
                 if ( acerta_alien (invasores->crabs[1][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->crabs[1][coluna] = NULL;
                     invasores->aliens_mortos[4] ++;
-                    if ( invasores->aliens_mortos[4] == invasores->n_aliens) invasores->linhas--;
+                    // if ( invasores->aliens_mortos[4] == invasores->n_aliens) invasores->linhas--;
 					return 10;
                 }
 				break;
 		}
+        while (invasores->aliens_mortos[invasores->linhas-1] == invasores->n_aliens && invasores->linhas > 0)
+            invasores->linhas --;
 	}
 	return 0;
+}
+
+int get_linhas_wave(wave* obj){
+    return obj->linhas;
 }
 
 int get_bottom_wave(wave* obj){

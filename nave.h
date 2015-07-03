@@ -5,6 +5,8 @@
 #include <allegro5/allegro.h>
 #include "missil.h"
 
+#define PONTOS_NAVE_MAE 300
+
 struct nave{
 
 	int x, y, move_atraso, min_atraso, max_atraso, velocidade;

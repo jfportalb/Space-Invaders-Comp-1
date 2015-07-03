@@ -6,7 +6,6 @@ Tanque* inicializa_tanque( int posicao_x, int posicao_y){
 	Tanque* tanque = (Tanque*) malloc(sizeof(Tanque));
 	tanque->posicao_x_inicial = posicao_x;
 	tanque->posicao_y_inicial = posicao_y;
-	// tanque->velocidade = 0;
 
 	tanque->imagem = al_load_bitmap("imagens/tanque.png");
 	tanque->delta_x = al_get_bitmap_width(tanque->imagem)/2;
@@ -37,10 +36,6 @@ void desenha_tanque(Tanque* tanque){
 	if(tanque->missil)
 		desenha_missil(tanque->missil);
 }
-
-// void move_tanque(Tanque* tanque){
-// 	tanque->posicao_x += tanque->velocidade;
-// }
 
 void processa_tanque(Tanque* tanque){
 	if(tanque->missil){

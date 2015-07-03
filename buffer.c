@@ -41,8 +41,11 @@ void processa_colisao(Buffer* buffer){
 				destroi_missil_tanque(buffer->tanque);
 			}
 		}
-		if(colide_nave(buffer->ovni, missil_tanque))
+		if(colide_nave(buffer->ovni, missil_tanque)){
+			*buffer->score += PONTOS_NAVE_MAE;
 			buffer->ovni = NULL; 
+			destroi_missil_tanque(buffer->tanque);
+		}
 		else
 			for (int i = 0; i < buffer->n_escudos && missil_tanque; i++)
 				if (colide_escudo(buffer->escudo[i], missil_tanque)){
@@ -70,7 +73,7 @@ void processa_colisao(Buffer* buffer){
 	}
 }
 //Te q escrever algo aqui.
-void game_over(Buffer* buffer){
+void end_game(Buffer* buffer){
 	*buffer->game_on = false;
 }
 
@@ -81,8 +84,13 @@ void processa_buffer(Buffer* buffer){
 	processa_tanque(buffer->tanque);
 	processa_colisao(buffer);
 
+	//Caso vitorioso:
+	if (get_linhas_wave(buffer->invasores) == 0)
+		end_game(buffer);
+
+	//Derrota:
 	if(get_bottom_wave(buffer->invasores) >= get_top_tanque(buffer->tanque) || *buffer->vidas < 0)
-		game_over(buffer);
+		end_game(buffer);
 }
 
 void desenha_buffer(Buffer* buffer, int largura, int altura){
