@@ -15,6 +15,7 @@ struct Buffer{
 
 	int largura_inicial, altura_inicial;
 	int* vidas, *score;
+	bool* game_on;
 
 	Escudo** escudo;
 	int n_escudos;
@@ -23,7 +24,7 @@ struct Buffer{
 	nave* ovni;
 };
 
-Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, nave* ovni, int* vidas, int* score);
+Buffer* inicializa_buffer( ALLEGRO_DISPLAY *display, ALLEGRO_FONT* fonte, int largura, int altura, Escudo* escudo[], int n_escudos, Tanque *tanque, wave* invasores, nave* ovni, int* vidas, int* score, bool* game_on);
 
 void processa_buffer(Buffer* buffer);
 

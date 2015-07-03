@@ -32,7 +32,7 @@ enum GAME_STATE {
 };
 
 enum MENUS{
-	MENU_PRINCIPAL, MENU_DE_PAUSA, MENU_DE_OPCOES
+	MENU_PRINCIPAL, MENU_DE_PAUSA, MENU_DE_OPCOES, MENU_GAME_OVER
 };
 
 struct Jogo{
@@ -47,9 +47,10 @@ struct Jogo{
 	ALLEGRO_FONT* fonte;
 
 	GAME_STATE estado_do_jogo;
+	bool game_on;
 	bool key[N_KEYS];
 
-	Menu* menu[3];
+	Menu* menu[4];
 	
 	Buffer* buffer;
 	Escudo* escudo[N_ESCUDOS];

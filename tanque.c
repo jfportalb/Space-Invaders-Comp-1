@@ -4,13 +4,12 @@
 
 Tanque* inicializa_tanque( int posicao_x, int posicao_y){
 	Tanque* tanque = (Tanque*) malloc(sizeof(Tanque));
-	tanque->posicao_x = posicao_x;
-	tanque->posicao_y = posicao_y;
-	tanque->velocidade = 0;
+	tanque->posicao_x_inicial = posicao_x;
+	tanque->posicao_y_inicial = posicao_y;
+	// tanque->velocidade = 0;
 
 	tanque->imagem = al_load_bitmap("imagens/tanque.png");
 	tanque->delta_x = al_get_bitmap_width(tanque->imagem)/2;
-	tanque->missil = NULL;
 
 	if(!tanque->imagem)
 		tanque = NULL;
@@ -22,7 +21,15 @@ Tanque* inicializa_tanque( int posicao_x, int posicao_y){
 		exit(1);		
 	}
 
+	reinicia_tanque(tanque);
+
 	return tanque;
+}
+
+void reinicia_tanque(Tanque* tanque){
+	tanque->posicao_x = tanque->posicao_x_inicial;
+	tanque->posicao_y = tanque->posicao_y_inicial;
+	tanque->missil = NULL;
 }
 
 void desenha_tanque(Tanque* tanque){
@@ -31,9 +38,9 @@ void desenha_tanque(Tanque* tanque){
 		desenha_missil(tanque->missil);
 }
 
-void move_tanque(Tanque* tanque){
-	tanque->posicao_x += tanque->velocidade;
-}
+// void move_tanque(Tanque* tanque){
+// 	tanque->posicao_x += tanque->velocidade;
+// }
 
 void processa_tanque(Tanque* tanque){
 	if(tanque->missil){

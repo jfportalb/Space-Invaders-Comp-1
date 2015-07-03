@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <allegro5/allegro.h>
+#include "missil.h"
 
 struct nave{
 
@@ -19,5 +20,9 @@ void move_nave(struct nave* obj);
 void desenha_nave(struct nave* obj);
 
 void processa_nave(struct nave* obj);
+
+bool colide_nave(struct nave* obj, Missil* missil);
+
+nave* destroi_nave(struct nave* obj);
 
 #endif

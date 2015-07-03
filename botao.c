@@ -23,7 +23,6 @@ void clica_botao(Botao* botao){
 }
 
 Botao* finaliza_botao(Botao* botao){
-	// free(botao->texto);
 	if(botao) free(botao);
 	return NULL;
 }

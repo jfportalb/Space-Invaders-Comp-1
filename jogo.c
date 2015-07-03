@@ -23,6 +23,7 @@ void allegro_event_queue_init(Jogo* jogo);
 void menu_inicial_init(Jogo* jogo);
 void menu_pausa_init(Jogo* jogo);
 void menu_opcoes_init(Jogo* jogo);
+void menu_game_over_init(Jogo* jogo);
 
 //Inicializações da partida:
 void cria_escudos(Jogo* jogo);
@@ -67,6 +68,7 @@ void inicializa_jogo (Jogo* jogo){
 	menu_inicial_init( jogo);
 	menu_pausa_init( jogo);
 	menu_opcoes_init( jogo);
+	menu_game_over_init( jogo);
 	
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
@@ -109,10 +111,21 @@ void processa_jogo(Jogo* jogo, ALLEGRO_EVENT ev){
 		get_keyboard_down ( jogo, ev );
 	else if(ev.type == ALLEGRO_EVENT_KEY_UP)
 		get_keyboard_up ( jogo, ev );
+	if (!jogo->game_on)
+		jogo->estado_do_jogo = GAME_OVER;
 }
 
 void desenha_jogo(Jogo* jogo){
 	desenha_buffer(jogo->buffer, jogo->largura, jogo->altura);
+}
+
+void desenha_game_over(Jogo* jogo){
+	desenha_menu(jogo->menu[MENU_GAME_OVER], jogo->largura, jogo->altura);
+	char strGameOver[100];
+	sprintf(strGameOver, "Sua pontuacao foi: %d", jogo->score);
+	al_draw_text(jogo->fonte, al_map_rgb(00,0,0), 20, 20, 0, strGameOver);
+
+	al_flip_display();
 }
 
 void main_loop_jogo(Jogo* jogo){
@@ -150,6 +163,8 @@ void main_loop_jogo(Jogo* jogo){
 				}
 				break;
 			case GAME_OVER:
+				processa_menu(jogo,jogo->menu[MENU_GAME_OVER], ev);
+				desenha_game_over(jogo);
 				break;
 		}
 	}
@@ -270,6 +285,12 @@ void menu_opcoes_init(Jogo* jogo){
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 1, "Dimunui resolucao", diminui_tela, jogo); 
 	cria_botao(jogo->menu[MENU_DE_OPCOES], 2, "Menu principal", ir_para_menu_inicial, jogo); 
 }
+void menu_game_over_init(Jogo* jogo){
+	jogo->menu[MENU_GAME_OVER] = inicializa_menu( jogo->fonte, jogo->largura, jogo->altura, 3, 0);
+	cria_botao(jogo->menu[MENU_GAME_OVER], 0, "Novo jogo", game_start, jogo);
+	cria_botao(jogo->menu[MENU_GAME_OVER], 1, "Menu principal", ir_para_menu_inicial, jogo); 
+	cria_botao(jogo->menu[MENU_GAME_OVER], 2, "Sair", sair_jogo, jogo);
+}
 
 //Funções usadas na inicialização da partida:
 void cria_escudos(Jogo* jogo){
@@ -324,8 +345,9 @@ void game_start(void* ptr){
 	cria_tanque( jogo);
 	jogo->invasores = create_wave(70, N_ALIEN);
 	jogo->ovni = cria_nave(50, 5, 10, 2);
+	jogo->game_on = true;
 	jogo->buffer = inicializa_buffer(jogo->display, jogo->fonte, LARGURA_INICIAL, ALTURA_INICIAL, jogo->escudo, N_ESCUDOS, 
-									 jogo->tanque, jogo->invasores, jogo->ovni,&jogo->vidas, &jogo->score);
+									 jogo->tanque, jogo->invasores, jogo->ovni,&jogo->vidas, &jogo->score, &jogo->game_on);
 	jogo->estado_do_jogo = PLAY;	
 }
 void ir_para_menu_inicial(void* ptr){
