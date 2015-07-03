@@ -15,9 +15,9 @@
 #define FPS 60
 #define N_KEYS 3
 #define N_ESCUDOS 4
-#define N_ALIEN 11
+#define N_ALIEN 1
 #define N_SAMPLES 5
-#define VIDAS_INICIAIS 100
+#define VIDAS_INICIAIS 300
 
 //Medidas do display para que o jogo fique proporcional.
 #define LARGURA_INICIAL 640

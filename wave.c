@@ -192,8 +192,9 @@ void processa_wave(struct wave* obj) {
 int colide_wave(wave* invasores, Missil* missil){
 	int x = get_x_missil(missil);
 	int y = get_y_missil(missil);
-	x-= invasores->x;
-	y-= invasores->y;
+    x-= invasores->x;
+    y-= invasores->y;
+    int pts = 0;
 	if( x >= 0 && y >= 0 && x <  invasores->wave_width && y < ALIEN_SIZE * invasores->linhas + ALIEN_SPACING * (invasores->linhas - 1)){
         int coluna = x/(ALIEN_SIZE + ALIEN_SPACING);
 		int linha = (y + ALIEN_SPACING)/(ALIEN_SIZE + ALIEN_SPACING);
@@ -202,47 +203,43 @@ int colide_wave(wave* invasores, Missil* missil){
                 if ( acerta_alien (invasores->squids[coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->squids[coluna] = NULL;
                     invasores->aliens_mortos[0] ++;
-                    // if ( invasores->aliens_mortos[0] == invasores->n_aliens) invasores->linhas--;
-                    return 30;
+                    pts = 30;
                 }
                 break;
             case 1:
                 if ( acerta_alien (invasores->jellyfishes[0][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->jellyfishes[0][coluna] = NULL;
                     invasores->aliens_mortos[1] ++;
-                    // if ( invasores->aliens_mortos[1] == invasores->n_aliens) invasores->linhas--;
-                    return 20;
+                    pts = 20;
                 }
                 break;
             case 2:
                 if ( acerta_alien (invasores->jellyfishes[1][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->jellyfishes[1][coluna] = NULL;
                     invasores->aliens_mortos[2] ++;
-                    // if ( invasores->aliens_mortos[2] == invasores->n_aliens) invasores->linhas--;
-                    return 20;
+                    pts = 20;
                 }
                 break;
             case 3:
                 if ( acerta_alien (invasores->crabs[0][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->crabs[0][coluna] = NULL;
                     invasores->aliens_mortos[3] ++;
-                    // if ( invasores->aliens_mortos[3] == invasores->n_aliens) invasores->linhas--;
-                    return 10;
+                    pts = 10;
                 }
                 break;
             case 4:
                 if ( acerta_alien (invasores->crabs[1][coluna], get_x_missil(missil), get_y_missil(missil))){
                     invasores->crabs[1][coluna] = NULL;
                     invasores->aliens_mortos[4] ++;
-                    // if ( invasores->aliens_mortos[4] == invasores->n_aliens) invasores->linhas--;
-					return 10;
+                    pts = 10;
                 }
-				break;
-		}
+                break;
+        }
+
         while (invasores->aliens_mortos[invasores->linhas-1] == invasores->n_aliens && invasores->linhas > 0)
             invasores->linhas --;
 	}
-	return 0;
+	return pts;
 }
 
 int get_linhas_wave(wave* obj){

@@ -34,24 +34,22 @@ void processa_colisao(Buffer* buffer){
 		if( get_y_missil(missil_tanque) < 0)
 			destroi_missil_tanque(buffer->tanque);
 		else {
-		if(get_y_missil(missil_tanque) <= get_bottom_wave(buffer->invasores)){
 			int pts = colide_wave(buffer->invasores, missil_tanque);
 			if(pts){
 				*buffer->score += pts;
 				destroi_missil_tanque(buffer->tanque);
 			}
-		}
-		if(colide_nave(buffer->ovni, missil_tanque)){
-			*buffer->score += PONTOS_NAVE_MAE;
-			buffer->ovni = NULL; 
-			destroi_missil_tanque(buffer->tanque);
-		}
-		else
-			for (int i = 0; i < buffer->n_escudos && missil_tanque; i++)
-				if (colide_escudo(buffer->escudo[i], missil_tanque)){
-					destroi_missil_tanque(buffer->tanque);
-					break;
-				}
+			else if(colide_nave(buffer->ovni, missil_tanque)){
+				*buffer->score += PONTOS_NAVE_MAE;
+				buffer->ovni = NULL; 
+				destroi_missil_tanque(buffer->tanque);
+			}
+			else
+				for (int i = 0; i < buffer->n_escudos && missil_tanque; i++)
+					if (colide_escudo(buffer->escudo[i], missil_tanque)){
+						destroi_missil_tanque(buffer->tanque);
+						break;
+					}
 		}
 	for (int i=0; i<MAX_MISSEIS; i++){
 		Missil* missil_wave = get_missil_wave(buffer->invasores, i);
