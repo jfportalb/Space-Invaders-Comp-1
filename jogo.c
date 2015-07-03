@@ -73,6 +73,7 @@ void inicializa_jogo (Jogo* jogo){
 	for (int i = 0; i<N_ESCUDOS; i++)
 		jogo->escudo[i] = NULL;
 	jogo->tanque = NULL;
+	jogo->invasores = NULL;
 
 	al_set_window_title(jogo->display, "Space Invaders");
 }
@@ -340,7 +341,7 @@ void cria_tanque(Jogo* jogo){
 	}
 }
 void finaliza_jogo(Jogo* jogo){
-	// jogo->invasores = deestroi_wave(jogo->invasores);
+	if(jogo->invasores) jogo->invasores = destroi_wave(jogo->invasores);
 	if(jogo->tanque) jogo-> tanque = destroi_tanque(jogo->tanque);
 	for(int i=0; i<N_ESCUDOS; i++)
 		if(jogo->escudo[i]) jogo->escudo[i] = finaliza_escudo(jogo->escudo[i]);

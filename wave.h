@@ -38,4 +38,6 @@ void destroi_missil_wave(wave* obj, int n_missil);
 
 int get_linhas_wave(wave* obj);
  
+wave* destroi_wave(wave* obj);
+
 #endif

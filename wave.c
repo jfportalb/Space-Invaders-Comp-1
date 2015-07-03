@@ -252,3 +252,8 @@ int get_linhas_wave(wave* obj){
 int get_bottom_wave(wave* obj){
     return obj->y +  (obj->linhas -1) * ALIEN_SIZE + (obj->linhas - 2) * ALIEN_SPACING;
 }
+
+wave* destroi_wave(wave* obj){
+    free(obj);
+    return NULL;
+}

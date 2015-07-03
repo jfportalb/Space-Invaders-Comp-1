@@ -78,11 +78,11 @@ void desenha_escudo( Escudo* escudo ) {
 }
 
 Escudo* finaliza_escudo( Escudo *escudo ) {
-	for(int i =0; i<5; i++)
-		for(int j=0; j<2; j++){
-			puts("ONE");
-			al_destroy_bitmap(escudo->imagem[i][j]);
-		}
+	// for(int i =0; i<5; i++)
+	// 	for(int j=0; j<2; j++){
+	// 		puts("ONE");
+	// 		al_destroy_bitmap(escudo->imagem[i][j]);
+	// 	}
 	free(escudo);
 	escudo = NULL;
 	return escudo;
