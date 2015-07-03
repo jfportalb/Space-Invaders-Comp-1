@@ -367,6 +367,8 @@ void game_start(void* ptr){
 	finaliza_jogo(jogo);
 	jogo-> vidas = VIDAS_INICIAIS;
 	jogo->score = 0;
+	for(int i=0; i<N_KEYS;	 i++)
+		jogo->key[i] = false;
 	cria_escudos( jogo);
 	cria_tanque( jogo);
 	jogo->invasores = create_wave(70, N_ALIEN);
