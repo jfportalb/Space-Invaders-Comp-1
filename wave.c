@@ -1,5 +1,5 @@
+#include <time.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include "wave.h"
  
@@ -9,12 +9,13 @@
 //Do contrário, a wave irá atravesá-los antes de voltar.
 //Uma outra possibilidade é tornar o limite o 
 wave* create_wave(int y_inicial, int n_aliens) {
+    srand(time(NULL));
  
     struct wave* obj = (struct wave*) malloc(sizeof(struct wave));
     obj->x = 72; 
     obj->y = y_inicial;
     obj->anima_contador = 0;
-    obj->ritmo = 40;
+    obj->ritmo = ALIEN_RHYTHM;
     obj->velocidade = ALIEN_SPEED;
 
     obj->n_aliens = n_aliens;
@@ -249,5 +250,5 @@ int get_linhas_wave(wave* obj){
 }
 
 int get_bottom_wave(wave* obj){
-    return obj->y +  obj->linhas * ALIEN_SIZE + (obj->linhas - 1) * ALIEN_SPACING;
+    return obj->y +  (obj->linhas -1) * ALIEN_SIZE + (obj->linhas - 2) * ALIEN_SPACING;
 }

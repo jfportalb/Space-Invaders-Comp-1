@@ -71,6 +71,9 @@ void processa_colisao(Buffer* buffer){
 			}
 		}
 	}
+	if(get_bottom_wave(buffer->invasores) >= get_top_escudo(buffer->escudo[0]))
+		for(int i=0; i<buffer->n_escudos; i++)
+			destroi_topo_escudo(buffer->escudo[i]);
 }
 //Te q escrever algo aqui.
 void end_game(Buffer* buffer){
@@ -89,8 +92,10 @@ void processa_buffer(Buffer* buffer){
 		end_game(buffer);
 
 	//Derrota:
-	if(get_bottom_wave(buffer->invasores) >= get_top_tanque(buffer->tanque) || *buffer->vidas < 0)
+	if(get_bottom_wave(buffer->invasores) >= get_top_tanque(buffer->tanque) || *buffer->vidas < 0){
+		*buffer->vidas = -1;
 		end_game(buffer);
+	}
 }
 
 void desenha_buffer(Buffer* buffer, int largura, int altura){

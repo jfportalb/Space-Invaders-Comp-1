@@ -7,6 +7,7 @@ Escudo* inicializa_escudo( int posicao_x, int posicao_y ) {
 	Escudo* escudo = (Escudo*) malloc(sizeof(Escudo));
 	escudo->posicao_x = posicao_x;
 	escudo->posicao_y = posicao_y;
+	escudo->topo_destruido = 0;
 	
 	for( int i = 0; i < PEDACOS_HORIZONTAL; i++ ) 
 		for( int j = 0; j < PEDACOS_VERTICAL; j++ ) {
@@ -78,9 +79,24 @@ void desenha_escudo( Escudo* escudo ) {
 
 Escudo* finaliza_escudo( Escudo *escudo ) {
 	for(int i =0; i<5; i++)
-		for(int j=0; j<2; j++)
+		for(int j=0; j<2; j++){
+			puts("ONE");
 			al_destroy_bitmap(escudo->imagem[i][j]);
+		}
 	free(escudo);
 	escudo = NULL;
 	return escudo;
+}
+
+int get_top_escudo ( Escudo* escudo){
+	return escudo->posicao_y + escudo->topo_destruido*TAMANHO_PEDACO;
+}
+
+void destroi_pedaco(Escudo* escudo, int pedaco_x, int pedaco_y){
+	escudo->pedaco[pedaco_x][pedaco_y] = DESTRUIDO;
+}
+void destroi_topo_escudo (Escudo* escudo){
+	for (int i=0; i< PEDACOS_HORIZONTAL; i++)
+		destroi_pedaco(escudo, i, escudo->topo_destruido);
+	escudo->topo_destruido++;
 }

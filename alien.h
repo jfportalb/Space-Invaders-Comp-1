@@ -2,6 +2,7 @@
 #define ALIEN_H
  
 #define ALIEN_SPEED 8
+#define ALIEN_RHYTHM 2
 #define ALIEN_SIZE 36
  
 #include <allegro5/allegro.h>
