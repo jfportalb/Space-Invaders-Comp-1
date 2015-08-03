@@ -1,19 +1,17 @@
-# Space-Invaders-Comp-1
-
 Site Cara Limpa
 ===============
 
 Objetivo do projeto
 -------------------
 
-Criação de um site de divulgação e reserva de produtos para a empresa "Cara Limpa"
+Criação de um site de divulgação e reserva de produtos para a empresa _"Cara Limpa"_.
 
 Funcionalidades
 ---------------
 
 As funcionalidades presentes ao fim do projeto devem ser:
 
-*Visitante:*
+**Visitante:**
 1. Acessar Home
 2. Visualizar um slide show
 3. Visualizar contatos do salão
@@ -26,14 +24,14 @@ As funcionalidades presentes ao fim do projeto devem ser:
 10. Saber se um determinado produto está disponível
 11. Recuperar senha
 
-*Usuário:*
+**Usuário:**
 1. Reservar produtos
 2. Visualizar produtos reservados
 3. Cancelar reserva
 4. Alterar seus dados
 5. Fazer logout
 
-*Administrador:*
+**Administrador:**
 1. Adicionar fotos ao slide show
 2. Alterar fotos do slide show
 3. Remover fotos do slide show
@@ -52,3 +50,7 @@ Descrição técnica
 
 O projeto será desenvolvido utilizando a linguagem PHP através da framework Laravel. Para maiores informações referir à documentação da mesma.
 
+Autores
+-------
+
+O projeto está sendo desenvolvido pela equipe da EJCM (Empresa Júnior de Consultoria em Microinformática).
